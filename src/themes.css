@@ -1,0 +1,27 @@
+/* Light Theme */
+@media (prefers-color-scheme: light), (prefers-color-scheme: no-preference) {
+  :root {
+    --mat-primary: #3f51b5;
+    --mat-on-primary: #ffffff;
+    --mat-accent: #e91e63;
+    --mat-on-accent: #ffffff;
+    --mat-background: #ffffff;
+    --mat-on-background: #000000;
+
+    --mat-font-family: "Montserrat", sans-serif;
+  }
+}
+
+/* Dark Theme */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --mat-primary: #607d8b;
+    --mat-on-primary: #ffffff;
+    --mat-accent: #ffc107;
+    --mat-on-accent: #000000;
+    --mat-background: #121212;
+    --mat-on-background: #ffffff;
+
+    --mat-font-family: "Roboto", sans-serif;
+  }
+}

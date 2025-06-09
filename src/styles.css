@@ -1,7 +1,0 @@
-@import 'themes.css';
-
-body {
-  font-family: var(--mat-font-family);
-  background-color: var(--mat-background);
-  color: var(--mat-on-background);
-}

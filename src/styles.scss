@@ -1,5 +1,17 @@
-@use 'themes' as *;
+// @use 'themes' as *;
 @use 'personal-themes' as *;
+
+@use '@angular/material' as mat;
+@use 'theme-colors' as redif-theme-colors;
+
+/* html {
+  color-scheme: light dark;
+  @include mat.theme((
+    color: redif-theme-colors.$primary-palette,
+    typography: Roboto,
+    density: 0
+  ));
+} */
 
 body {
   font-family: var(--mat-font-family);

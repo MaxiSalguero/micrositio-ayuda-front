@@ -1,8 +1,7 @@
-// @use 'themes' as *;
 @use 'personal-themes' as *;
-
-@use '@angular/material' as mat;
-@use 'theme-colors' as redif-theme-colors;
+ 
+// @use '@angular/material' as mat; 
+// @use 'theme-colors' as redif-theme-colors; 
 
 /* html {
   color-scheme: light dark;
@@ -15,6 +14,6 @@
 
 body {
   font-family: var(--mat-font-family);
-/*   background-color: var(--mat-background); */
+  background-color: var(--mat-background);
 /*   color: var(--mat-on-background); */
 }

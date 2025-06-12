@@ -17,7 +17,9 @@
 <div class="content-wrapper">
   <mat-card class="component-showcase-card">
     <mat-card-header>
-      <mat-card-title [ngClass]="{'white-text': isDarkTheme}">Muestra de Componentes</mat-card-title>
+      <mat-card-title [ngClass]="{'white-text': isDarkTheme}"
+        >Muestra de Componentes</mat-card-title
+      >
       <mat-card-subtitle>Cambian Segun el Tema Seleccionado</mat-card-subtitle>
     </mat-card-header>
     <mat-card-content>
@@ -39,7 +41,9 @@
           </button>
         </section>
         <section class="component-section">
-          <h2 [ngClass]="{'white-text': isDarkTheme}">Controles de Selección</h2>
+          <h2 [ngClass]="{'white-text': isDarkTheme}">
+            Controles de Selección
+          </h2>
           <div>
             <mat-checkbox color="primary">Checkbox Primario</mat-checkbox>
           </div>
@@ -55,7 +59,9 @@
             </mat-radio-group>
           </div>
           <div>
-            <mat-slide-toggle color="accent" style="margin-top: 15px; margin-left: 10px;"
+            <mat-slide-toggle
+              color="accent"
+              style="margin-top: 15px; margin-left: 10px"
               >Slide Toggle Acento</mat-slide-toggle
             >
           </div>
@@ -70,6 +76,7 @@
       </div>
     </mat-card-content>
   </mat-card>
+  <app-theme-toggle></app-theme-toggle>
 </div>
 
 <router-outlet />

@@ -23,6 +23,7 @@ import { MatRadioModule } from '@angular/material/radio';
 import { isPlatformBrowser, isPlatformServer, NgClass } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { tap } from 'rxjs/operators';
+import { ThemeToggle } from './components/theme-toggle/theme-toggle';
 
 // Clave única para el estado que queremos transferir.
 // Buena práctica definirla fuera de la clase.
@@ -45,6 +46,7 @@ const TITLE_KEY = makeStateKey<string>('appTitle');
     MatDividerModule,
     MatTabsModule,
     NgClass,
+    ThemeToggle,
   ],
   templateUrl: './app.html',
   styleUrl: './app.scss',

@@ -1,0 +1,10 @@
+.row {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.col {
+  flex: 1 1 0;
+  min-width: 300px;
+}

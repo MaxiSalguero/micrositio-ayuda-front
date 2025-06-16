@@ -1,0 +1,37 @@
+.container {
+  display: flex;
+  justify-content: space-evenly;
+}
+
+.spacer {
+  flex: 1 1 auto;
+}
+
+.content-wrapper {
+  padding: 10px;
+}
+
+.component-showcase-card {
+  margin-top: 20px;
+}
+
+.component-section {
+  padding: 16px 0;
+
+  h2 {
+    margin-bottom: 12px;
+  }
+
+  button,
+  mat-checkbox,
+  mat-radio-group,
+  mat-slide-toggle,
+  mat-form-field {
+    margin-right: 12px;
+    margin-bottom: 12px;
+  }
+}
+
+mat-divider {
+  margin: 16px 0;
+}

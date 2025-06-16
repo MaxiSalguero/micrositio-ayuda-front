@@ -1,19 +1,36 @@
-@use 'personal-themes' as *;
- 
-// @use '@angular/material' as mat; 
-// @use 'theme-colors' as redif-theme-colors; 
+@use "@angular/material" as mat;
+@use "./app/styles/theme-colors" as redif-theme-colors;
+@use './app/styles/typography';
 
-/* html {
+html {
   color-scheme: light dark;
-  @include mat.theme((
-    color: redif-theme-colors.$primary-palette,
-    typography: Roboto,
-    density: 0
-  ));
-} */
+  @include mat.theme(
+    (
+      color: (
+        primary: redif-theme-colors.$primary-palette,
+        tertiary: redif-theme-colors.$tertiary-palette,
+      ),
+      typography: Roboto, // Aplica la tipografía solo a los componentes de Angular Material.
+      density: 0,
+    )
+  );
+}
+
+html,
+body {
+  height: 100%;
+}
 
 body {
-  font-family: var(--mat-font-family);
-  background-color: var(--mat-background);
-/*   color: var(--mat-on-background); */
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif; //Asegura que todo el contenido use la fuente Roboto.
+  color: var(--mat-sys-on-surface);
+  background-color: var(--mat-sys-on-secondary);
+
+  &.redif-light-theme {
+    color-scheme: light;
+  }
+  &.redif-dark-theme {
+    color-scheme: dark;
+  }
 }

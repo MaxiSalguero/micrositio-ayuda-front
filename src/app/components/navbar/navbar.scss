@@ -1,0 +1,58 @@
+.sidenav-container {
+  height: 100vh;
+}
+
+.mat-toolbar {
+  background-color: var(--mat-sys-primary-container);
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 2;
+}
+
+.navbar-brand {
+  display: flex;
+  align-items: center;
+
+  & img {
+    height: 55px;
+    max-height: 100%;
+    border-radius: 20px;
+    margin-right: 5px;
+  }
+}
+
+.spacer {
+  flex: 1 1 auto;
+}
+
+.hide-mobile {
+  display: none;
+}
+
+.hide-desktop {
+  display: inline-flex;
+}
+
+.active {
+  background-color: var(--mat-sys-on-secondary) !important;
+  color: var(--mat-sys-on-surface) !important;
+}
+
+router-outlet {
+  display: block;
+  margin-top: 70px;
+}
+
+@media (min-width: 768px) {
+  .hide-mobile {
+    display: inline-flex;
+  }
+  .hide-desktop {
+    display: none;
+  }
+  .sidenav {
+    display: none;
+  }
+}

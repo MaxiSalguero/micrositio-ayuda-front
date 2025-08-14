@@ -1,113 +1,113 @@
 .mat-display-large {
-    font-family: Roboto, "Helvetica Neue", Arial, sans-serif;
-    font-size: 3.5625rem; // 57px
-    font-weight: 400;
-    line-height: 4rem; // 64px
-    letter-spacing: -0.25px;
-  }
-  
-  .mat-display-medium {
-    font-family: Roboto, "Helvetica Neue", Arial, sans-serif;
-    font-size: 2.8125rem; // 45px
-    font-weight: 400;
-    line-height: 3.25rem; // 52px
-    letter-spacing: 0;
-  }
-  
-  .mat-display-small {
-    font-family: Roboto, "Helvetica Neue", Arial, sans-serif;
-    font-size: 2.25rem; // 36px
-    font-weight: 400;
-    line-height: 2.75rem; // 44px
-    letter-spacing: 0;
-  }
-  
-  .mat-headline-large {
-    font-family: Roboto, "Helvetica Neue", Arial, sans-serif;
-    font-size: 2rem; // 32px
-    font-weight: 400;
-    line-height: 2.5rem; // 40px
-    letter-spacing: 0;
-  }
-  
-  .mat-headline-medium {
-    font-family: Roboto, "Helvetica Neue", Arial, sans-serif;
-    font-size: 1.75rem; // 28px
-    font-weight: 400;
-    line-height: 2.25rem; // 36px
-    letter-spacing: 0;
-  }
-  
-  .mat-headline-small {
-    font-family: Roboto, "Helvetica Neue", Arial, sans-serif;
-    font-size: 1.5rem; // 24px
-    font-weight: 400;
-    line-height: 2rem; // 32px
-    letter-spacing: 0;
-  }
-  
-  .mat-title-large {
-    font-family: Roboto, "Helvetica Neue", Arial, sans-serif;
-    font-size: 1.375rem; // 22px
-    font-weight: 400;
-    line-height: 2rem; // 32px
-    letter-spacing: 0;
-  }
-  
-  .mat-title-medium {
-    font-family: Roboto, "Helvetica Neue", Arial, sans-serif;
-    font-size: 1rem; // 16px
-    font-weight: 500;
-    line-height: 1.5rem; // 24px
-    letter-spacing: 0.15px;
-  }
-  
-  .mat-title-small {
-    font-family: Roboto, "Helvetica Neue", Arial, sans-serif;
-    font-size: 0.875rem; // 14px
-    font-weight: 500;
-    line-height: 1.25rem; // 20px
-    letter-spacing: 0.1px;
-  }
-  
-  .mat-body-large {
-    font-family: Roboto, "Helvetica Neue", Arial, sans-serif;
-    font-size: 1rem; // 16px
-    font-weight: 400;
-    line-height: 1.5rem; // 24px
-    letter-spacing: 0.5px;
-  }
-  
-  .mat-body-medium {
-    font-family: Roboto, "Helvetica Neue", Arial, sans-serif;
-    font-size: 0.875rem; // 14px
-    font-weight: 400;
-    line-height: 1.25rem; // 20px
-    letter-spacing: 0.25px;
-  }
-  
-  .mat-body-small {
-    font-family: Roboto, "Helvetica Neue", Arial, sans-serif;
-    font-size: 0.75rem; // 12px
-    font-weight: 400;
-    line-height: 1rem; // 16px
-    letter-spacing: 0.4px;
-  }
-  
-  .mat-label {
-    font-family: Roboto, "Helvetica Neue", Arial, sans-serif;
-    font-size: 0.75rem; // 12px
-    font-weight: 500;
-    line-height: 1rem; // 16px
-    letter-spacing: 0.5px;
-    text-transform: uppercase;
-  }
-  
-  .mat-caption {
-    font-family: Roboto, "Helvetica Neue", Arial, sans-serif;
-    font-size: 0.75rem; // 12px
-    font-weight: 400;
-    line-height: 1rem; // 16px
-    letter-spacing: 0.4px;
-    color: #6c757d; // gris claro, opcional
-  }
+  font-family: Roboto, "Helvetica Neue", Arial, sans-serif;
+  font-size: 3.5625rem; // 57px
+  font-weight: 400;
+  line-height: 4rem; // 64px
+  letter-spacing: -0.25px;
+}
+
+.mat-display-medium {
+  font-family: Roboto, "Helvetica Neue", Arial, sans-serif;
+  font-size: 2.8125rem; // 45px
+  font-weight: 400;
+  line-height: 3.25rem; // 52px
+  letter-spacing: 0;
+}
+
+.mat-display-small {
+  font-family: Roboto, "Helvetica Neue", Arial, sans-serif;
+  font-size: 2.25rem; // 36px
+  font-weight: 400;
+  line-height: 2.75rem; // 44px
+  letter-spacing: 0;
+}
+
+.mat-headline-large {
+  font-family: "Google Sans", "Google Sans Text", Roboto, sans-serif;
+  font-size: 2rem; // 32px
+  font-weight: 400;
+  line-height: 2.5rem; // 40px
+  letter-spacing: 0;
+}
+
+.mat-headline-medium {
+  font-family: Roboto, "Helvetica Neue", Arial, sans-serif;
+  font-size: 1.75rem; // 28px
+  font-weight: 400;
+  line-height: 2.25rem; // 36px
+  letter-spacing: 0;
+}
+
+.mat-headline-small {
+  font-family: Roboto, "Helvetica Neue", Arial, sans-serif;
+  font-size: 1.5rem; // 24px
+  font-weight: 400;
+  line-height: 2rem; // 32px
+  letter-spacing: 0;
+}
+
+.mat-title-large {
+  font-family: Roboto, "Helvetica Neue", Arial, sans-serif;
+  font-size: 1.375rem; // 22px
+  font-weight: 400;
+  line-height: 2rem; // 32px
+  letter-spacing: 0;
+}
+
+.mat-title-medium {
+  font-family: Roboto, "Helvetica Neue", Arial, sans-serif;
+  font-size: 1rem; // 16px
+  font-weight: 500;
+  line-height: 1.5rem; // 24px
+  letter-spacing: 0.15px;
+}
+
+.mat-title-small {
+  font-family: Roboto, "Helvetica Neue", Arial, sans-serif;
+  font-size: 0.875rem; // 14px
+  font-weight: 500;
+  line-height: 1.25rem; // 20px
+  letter-spacing: 0.1px;
+}
+
+.mat-body-large {
+  font-family: Roboto, "Helvetica Neue", Arial, sans-serif;
+  font-size: 1rem; // 16px
+  font-weight: 400;
+  line-height: 1.5rem; // 24px
+  letter-spacing: 0.5px;
+}
+
+.mat-body-medium {
+  font-family: Roboto, "Helvetica Neue", Arial, sans-serif;
+  font-size: 0.875rem; // 14px
+  font-weight: 400;
+  line-height: 1.25rem; // 20px
+  letter-spacing: 0.25px;
+}
+
+.mat-body-small {
+  font-family: Roboto, "Helvetica Neue", Arial, sans-serif;
+  font-size: 0.75rem; // 12px
+  font-weight: 400;
+  line-height: 1rem; // 16px
+  letter-spacing: 0.4px;
+}
+
+.mat-label {
+  font-family: Roboto, "Helvetica Neue", Arial, sans-serif;
+  font-size: 0.75rem; // 12px
+  font-weight: 500;
+  line-height: 1rem; // 16px
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+}
+
+.mat-caption {
+  font-family: Roboto, "Helvetica Neue", Arial, sans-serif;
+  font-size: 0.75rem; // 12px
+  font-weight: 400;
+  line-height: 1rem; // 16px
+  letter-spacing: 0.4px;
+  color: #6c757d; // gris claro, opcional
+}

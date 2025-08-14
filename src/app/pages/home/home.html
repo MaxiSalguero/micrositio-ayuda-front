@@ -1,1 +1,66 @@
-<p>Welcome to {{ title }}</p>
+<h2 class="mat-headline-large">¿En que podemos ayudarte?</h2>
+
+<mat-form-field appearance="outline">
+  <mat-label>Buscar</mat-label>
+  <input matInput placeholder="Describe tu problema" />
+  <button mat-icon-button matSuffix aria-label="Buscar">
+    <mat-icon>search</mat-icon>
+  </button>
+</mat-form-field>
+
+<p class="mat-body-medium">Explora los temas de ayuda</p>
+
+<div class="example-action-buttons">
+  <button mat-button (click)="accordion().openAll()">Expandir Todo</button>
+  <button mat-button (click)="accordion().closeAll()">Colapsar Todo</button>
+</div>
+<mat-accordion class="example-headers-align" multi>
+  @for (category of categories; track category.id) {
+  <mat-expansion-panel>
+    <mat-expansion-panel-header>
+      <mat-panel-title>{{category.title}}</mat-panel-title>
+    </mat-expansion-panel-header>
+    <button mat-raised-button class="full-width">
+      First name
+    </button> </mat-expansion-panel
+  >}
+</mat-accordion>
+
+<mat-card class="example-card" appearance="outlined">
+  <mat-card-header style="justify-content: center">
+    <mat-card-title>¿Necesitas más ayuda?</mat-card-title>
+    <mat-card-subtitle
+      style="
+        font-size: 0.875rem;
+        text-align: center;
+        font-weight: 400;
+        line-height: 1.25rem;
+      "
+      >Prueba estos próximos pasos:</mat-card-subtitle
+    >
+  </mat-card-header>
+
+  <mat-card-content>
+    <mat-card class="example-card-content">
+      <a mat-card href="#" class="card-link">
+        <mat-card-header style="padding: 16px;"> 
+          <div mat-card-avatar class="example-header-image"></div>
+          <mat-card-title
+            style="
+              font-size: 1rem;
+              font-weight: 500;
+              letter-spacing: 0rem;
+              line-height: 1.5rem;
+              margin: 0;
+            "
+            >Contactar a un asesor de Redif</mat-card-title
+          >
+          <mat-card-subtitle
+            style="font-size: 0.875rem; font-weight: 400; line-height: 1.5rem"
+            >Obten respuesta de nuestro equipo de soporte</mat-card-subtitle
+          >
+        </mat-card-header></a
+      >
+    </mat-card>
+  </mat-card-content>
+</mat-card>

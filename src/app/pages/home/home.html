@@ -1,30 +1,29 @@
-<h2 class="mat-headline-large">¿En que podemos ayudarte?</h2>
+<section class="header-page">
+  <h2 class="mat-headline-large">¿En que podemos ayudarte?</h2>
 
-<mat-form-field appearance="outline">
-  <mat-label>Buscar</mat-label>
-  <input matInput placeholder="Describe tu problema" />
-  <button mat-icon-button matSuffix aria-label="Buscar">
-    <mat-icon>search</mat-icon>
-  </button>
-</mat-form-field>
+  <mat-form-field appearance="outline">
+    <mat-label>Buscar</mat-label>
+    <input matInput placeholder="Describe tu problema" />
+    <button mat-icon-button matSuffix aria-label="Buscar">
+      <mat-icon>search</mat-icon>
+    </button>
+  </mat-form-field>
+</section>
 
-<p class="mat-body-medium">Explora los temas de ayuda</p>
-
-<div class="example-action-buttons">
-  <button mat-button (click)="accordion().openAll()">Expandir Todo</button>
-  <button mat-button (click)="accordion().closeAll()">Colapsar Todo</button>
-</div>
-<mat-accordion class="example-headers-align" multi>
-  @for (category of categories; track category.id) {
-  <mat-expansion-panel>
-    <mat-expansion-panel-header>
-      <mat-panel-title>{{category.title}}</mat-panel-title>
-    </mat-expansion-panel-header>
-    <button mat-raised-button class="full-width">
-      First name
-    </button> </mat-expansion-panel
-  >}
-</mat-accordion>
+<section class="example-card">
+  <p class="mat-body-medium">Explora los temas de ayuda</p>
+  <mat-accordion class="custom-accordion">
+    @for (category of categories; track category.id) {
+    <mat-expansion-panel>
+      <mat-expansion-panel-header>
+        <mat-panel-title>{{category.title}}</mat-panel-title>
+      </mat-expansion-panel-header>
+      <button mat-raised-button class="full-width">
+        First name
+      </button> </mat-expansion-panel
+    >}
+  </mat-accordion>
+</section>
 
 <mat-card class="example-card" appearance="outlined">
   <mat-card-header style="justify-content: center">
@@ -43,7 +42,7 @@
   <mat-card-content>
     <mat-card class="example-card-content">
       <a mat-card href="#" class="card-link">
-        <mat-card-header style="padding: 16px;"> 
+        <mat-card-header style="padding: 16px">
           <div mat-card-avatar class="example-header-image"></div>
           <mat-card-title
             style="

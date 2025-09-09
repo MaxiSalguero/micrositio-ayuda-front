@@ -6,13 +6,27 @@
       <a href="#" class="footer__link">Condiciones del servicio</a>
     </div>
     <div class="footer__center">
-      <button
-        mat-icon-button
-        class="footer__settings"
-        aria-label="Configuración"
-      >
-        <mat-icon>brightness_7</mat-icon>
-      </button>
+      @if (currentTheme === 'redif-light-theme') {
+        <button
+          mat-icon-button
+          class="footer__settings"
+          aria-label="Cambiar a modo oscuro"
+          (click)="toggleTheme()"
+        >
+          <mat-icon>dark_mode</mat-icon>
+        </button>
+      }
+      
+      @if (currentTheme === 'redif-dark-theme') {
+        <button
+          mat-icon-button
+          class="footer__settings"
+          aria-label="Cambiar a modo claro"
+          (click)="toggleTheme()"
+        >
+          <mat-icon>light_mode</mat-icon>
+        </button>
+      }
     </div>
     <div class="footer__right">
       <button mat-stroked-button color="primary" class="footer__feedback">

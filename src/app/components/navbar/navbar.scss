@@ -1,5 +1,5 @@
 .sidenav-container {
-  height: 100vh;
+  height: auto; // Cambiado de 100vh para evitar conflictos
 }
 
 .mat-toolbar {
@@ -8,7 +8,8 @@
   top: 0;
   left: 0;
   right: 0;
-  z-index: 2;
+  z-index: 1000; // Aumentado para asegurar que esté por encima
+  height: 64px; // Altura fija
 }
 
 .navbar-brand {
@@ -40,9 +41,22 @@
   color: var(--mat-sys-on-surface) !important;
 }
 
-router-outlet {
-  display: block;
-  margin-top: 70px;
+// Estilos para el sidenav
+.sidenav {
+  width: 250px;
+  
+  mat-nav-list {
+    padding-top: 0;
+    
+    a[mat-list-item] {
+      height: 48px;
+      
+      &.active {
+        background-color: var(--mat-sys-primary-container);
+        color: var(--mat-sys-on-primary-container);
+      }
+    }
+  }
 }
 
 @media (min-width: 768px) {

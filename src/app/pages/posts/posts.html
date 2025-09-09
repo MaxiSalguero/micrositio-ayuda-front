@@ -1,0 +1,128 @@
+<div class="container">
+  <mat-card>
+    <mat-card-header>
+      <mat-card-title
+        style="font-size: 2rem; line-height: 2.5rem; font-weight: 350;"
+        >{{post?.title}}</mat-card-title
+      >
+    </mat-card-header>
+
+    <mat-card-content>
+      <p>{{post?.content}}</p>
+
+      <ol class="steps-list">
+        <li>
+          En una computadora, ve a <mat-chip>https://redif.com.ar/</mat-chip>.
+        </li>
+        <li>
+          En la página de inicio, haz clic en el botón
+          <mat-chip color="accent">Crear cuenta</mat-chip>.
+        </li>
+        <li>
+          Completa el formulario de registro con tus datos personales:
+          <ul class="sub-steps">
+            <li>Nombre y apellido</li>
+            <li>Correo electrónico válido</li>
+            <li>Contraseña segura</li>
+          </ul>
+        </li>
+        <li>
+          Revisa y acepta los <strong>Términos y Condiciones</strong> y las
+          <strong>Políticas de privacidad</strong>.
+        </li>
+        <li>Haz clic en <mat-chip color="accent">Registrarse</mat-chip>.</li>
+        <li>
+          Confirma tu cuenta:
+          <ul class="sub-steps">
+            <li>Abre el correo de confirmación enviado a tu email.</li>
+            <li>Haz clic en el enlace para activar tu cuenta.</li>
+          </ul>
+        </li>
+        <li>
+          ¡Listo! Ahora puedes iniciar sesión en <mat-chip>Redif</mat-chip> con
+          tu usuario y contraseña.
+        </li>
+      </ol>
+    </mat-card-content>
+  </mat-card>
+
+  <!-- Artículos relacionados -->
+  @if (related && related.length > 0) {
+  <mat-card>
+    <mat-card-header>
+      <mat-card-title>Artículos relacionados</mat-card-title>
+    </mat-card-header>
+
+    <mat-card-content>
+      <mat-list>
+        @for (relatedPost of related; track relatedPost.id) {
+        <mat-list-item>
+          <mat-icon matListItemIcon>article</mat-icon>
+          <div matListItemTitle>
+            <a
+              [routerLink]="['/posts', relatedPost.id]"
+              mat-button
+              color="primary"
+            >
+              {{relatedPost.title}}
+            </a>
+          </div>
+        </mat-list-item>
+        }
+      </mat-list>
+    </mat-card-content>
+  </mat-card>
+  }
+
+  <mat-divider></mat-divider>
+
+  <mat-card>
+    <mat-card-content class="feedback-content">
+      <p style="font-weight: 500">¿Te resultó útil esto?</p>
+
+      <div class="feedback-buttons">
+        <button mat-raised-button>Sí</button>
+        <button mat-raised-button>No</button>
+      </div>
+    </mat-card-content>
+  </mat-card>
+</div>
+
+<mat-card class="example-card" appearance="outlined">
+  <mat-card-header style="justify-content: center">
+    <mat-card-title>¿Necesitas más ayuda?</mat-card-title>
+    <mat-card-subtitle
+      style="
+        font-size: 0.875rem;
+        text-align: center;
+        font-weight: 400;
+        line-height: 1.25rem;
+      "
+      >Prueba estos próximos pasos:</mat-card-subtitle
+    >
+  </mat-card-header>
+
+  <mat-card-content>
+    <mat-card class="example-card-content">
+      <a mat-card href="#" class="card-link">
+        <mat-card-header style="padding: 16px">
+          <div mat-card-avatar class="example-header-image"></div>
+          <mat-card-title
+            style="
+              font-size: 1rem;
+              font-weight: 500;
+              letter-spacing: 0rem;
+              line-height: 1.5rem;
+              margin: 0;
+            "
+            >Contactar a un asesor de Redif</mat-card-title
+          >
+          <mat-card-subtitle
+            style="font-size: 0.875rem; font-weight: 400; line-height: 1.5rem"
+            >Obten respuesta de nuestro equipo de soporte</mat-card-subtitle
+          >
+        </mat-card-header></a
+      >
+    </mat-card>
+  </mat-card-content>
+</mat-card>

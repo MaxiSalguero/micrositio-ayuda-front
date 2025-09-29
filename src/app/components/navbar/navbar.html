@@ -9,22 +9,14 @@
         >Home</a
       >
     </mat-nav-list>
-  </mat-sidenav>
+  </mat-sidenav> <!-- No esta funcionando deberia dibujar un flotante con las opciones al clickear menu hamburguesa -->
 
   <mat-toolbar color="primary" class="mat-elevation-z4">
-    <button mat-icon-button (click)="drawer.toggle()" class="hide-desktop">
+    <button mat-icon-button (click)="drawer.toggle()">
       <mat-icon>menu</mat-icon>
     </button>
-    <span class="navbar-brand"><img src="images/redif_ar_logo.jpeg" alt="logo">Redif</span>
+    <span class="navbar-title">Sitio de Ayuda</span>
     <span class="spacer"></span>
-    <nav class="hide-mobile">
-      <a
-        mat-button
-        routerLink=""
-        routerLinkActive="active"
-        [routerLinkActiveOptions]="{exact: true}"
-        >Home</a
-      >
-    </nav>
+    <span class="navbar-brand">Redif<img src="images/redif_ar_logo.jpeg" alt="logo"></span>
   </mat-toolbar>
 </mat-sidenav-container>

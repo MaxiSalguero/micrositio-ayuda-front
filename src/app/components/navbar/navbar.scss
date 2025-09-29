@@ -1,5 +1,5 @@
 .sidenav-container {
-  height: auto; // Cambiado de 100vh para evitar conflictos
+  height: auto;
 }
 
 .mat-toolbar {
@@ -10,11 +10,13 @@
   right: 0;
   z-index: 1000; // Aumentado para asegurar que esté por encima
   height: 64px; // Altura fija
+  gap: 20px;
 }
 
 .navbar-brand {
   display: flex;
   align-items: center;
+  gap: 10px;
 
   & img {
     height: 55px;
@@ -24,33 +26,25 @@
   }
 }
 
-.spacer {
-  flex: 1 1 auto;
-}
-
-.hide-mobile {
-  display: none;
-}
-
-.hide-desktop {
-  display: inline-flex;
-}
-
 .active {
   background-color: var(--mat-sys-on-secondary) !important;
   color: var(--mat-sys-on-surface) !important;
 }
 
+.spacer {
+  flex: 1 1 auto;
+}
+
 // Estilos para el sidenav
 .sidenav {
   width: 250px;
-  
+
   mat-nav-list {
     padding-top: 0;
-    
+
     a[mat-list-item] {
       height: 48px;
-      
+
       &.active {
         background-color: var(--mat-sys-primary-container);
         color: var(--mat-sys-on-primary-container);
@@ -59,14 +53,8 @@
   }
 }
 
-@media (min-width: 768px) {
-  .hide-mobile {
-    display: inline-flex;
-  }
-  .hide-desktop {
-    display: none;
-  }
-  .sidenav {
+@media (max-width: 900px) {
+  .navbar-brand {
     display: none;
   }
 }

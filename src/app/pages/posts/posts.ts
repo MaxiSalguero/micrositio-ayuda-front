@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Params, RouterModule } from '@angular/router';
 import { ApiService } from '../../services/api-service';
 import { IPost } from '../../models/post.model';
@@ -13,6 +13,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { FormsModule } from '@angular/forms';
 import { IRelated, Post } from '../../models/related.model';
+import { MarkdownComponent } from 'ngx-markdown';
 
 @Component({
   selector: 'app-posts',
@@ -28,9 +29,11 @@ import { IRelated, Post } from '../../models/related.model';
     MatListModule,
     MatIconModule,
     RouterModule,
+    MarkdownComponent,
   ],
   templateUrl: './posts.html',
   styleUrl: './posts.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class Posts implements OnInit {
   post?: IPost;

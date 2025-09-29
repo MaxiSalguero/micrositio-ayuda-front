@@ -2,15 +2,15 @@
   <mat-card>
     <mat-card-header>
       <mat-card-title
-        style="font-size: 2rem; line-height: 2.5rem; font-weight: 350;"
+        style="font-size: 2rem; line-height: 2.5rem; font-weight: 350"
         >{{post?.title}}</mat-card-title
       >
     </mat-card-header>
 
     <mat-card-content>
-      <p>{{post?.content}}</p>
+      <markdown>{{post?.content}}</markdown>
 
-      <ol class="steps-list">
+<!--       <ol class="steps-list">
         <li>
           En una computadora, ve a <mat-chip>https://redif.com.ar/</mat-chip>.
         </li>
@@ -42,7 +42,7 @@
           ¡Listo! Ahora puedes iniciar sesión en <mat-chip>Redif</mat-chip> con
           tu usuario y contraseña.
         </li>
-      </ol>
+      </ol> -->
     </mat-card-content>
   </mat-card>
 

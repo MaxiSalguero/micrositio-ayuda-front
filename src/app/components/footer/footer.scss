@@ -66,17 +66,18 @@
 
   @media (max-width: 900px) {
     &__container {
-      flex-direction: column;
+      display: none;
+/*       flex-direction: column;
       align-items: flex-start;
       gap: 8px;
-      padding: 0 12px;
+      padding: 0 12px; */
     }
-    &__right {
+/*     &__right {
       width: 100%;
       .footer__feedback {
         width: 100%;
         justify-content: flex-start;
       }
-    }
+    } */
   }
 }

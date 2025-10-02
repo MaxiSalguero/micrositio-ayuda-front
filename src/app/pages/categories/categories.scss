@@ -1,0 +1,76 @@
+.header-page {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 32px;
+
+  .back-button {
+    flex-shrink: 0;
+    color: var(--mat-sys-primary);
+
+    &:hover {
+      background-color: var(--mat-sys-primary-container);
+    }
+  }
+
+  h2 {
+    margin: 0;
+    flex: 1;
+  }
+}
+
+.categories-section {
+  margin-bottom: 32px;
+
+  p {
+    margin-bottom: 16px;
+    color: var(--mat-sys-on-surface-variant);
+  }
+}
+
+.custom-accordion {
+  .post-button {
+    width: 100%;
+    margin: 8px 0;
+    text-align: left;
+    justify-content: flex-start;
+  }
+
+  .no-posts {
+    padding: 16px;
+    color: var(--mat-sys-on-surface-variant);
+    font-style: italic;
+    text-align: center;
+  }
+}
+
+.loading-section,
+.empty-section {
+  margin: 32px 0;
+}
+
+.example-card {
+  margin-top: 32px;
+  
+  .example-card-content {
+    background: none;
+    box-shadow: none;
+    
+    .card-link {
+      text-decoration: none;
+      color: inherit;
+      
+      &:hover {
+        background-color: var(--mat-sys-surface-variant);
+        border-radius: 8px;
+      }
+    }
+    
+    .example-header-image {
+      background-image: url('../../../../public/images/redif_ar_logo.jpeg');
+      background-size: cover;
+      background-position: center;
+      border-radius: 50%;
+    }
+  }
+}

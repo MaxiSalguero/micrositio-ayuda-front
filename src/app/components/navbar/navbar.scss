@@ -1,16 +1,13 @@
-.sidenav-container {
-  height: auto;
-}
-
-.mat-toolbar {
-  background-color: var(--mat-sys-primary-container);
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  z-index: 1000; // Aumentado para asegurar que esté por encima
-  height: 64px; // Altura fija
+.navbar-toolbar {
+  background-color: var(--mat-sys-surface-container) !important;
+  z-index: 1000 !important;
+  height: 64px !important;
+  width: 100% !important;
+  box-sizing: border-box !important;
   gap: 20px;
+  display: flex !important;
+  align-items: center !important;
+  position: static !important;
 }
 
 .navbar-brand {
@@ -26,35 +23,114 @@
   }
 }
 
-.active {
-  background-color: var(--mat-sys-on-secondary) !important;
-  color: var(--mat-sys-on-surface) !important;
+.navbar-title {
+  font-weight: 400;
+  font-size: 1.2rem;
 }
 
 .spacer {
   flex: 1 1 auto;
 }
 
-// Estilos para el sidenav
-.sidenav {
-  width: 250px;
+.active {
+  background-color: var(--mat-sys-on-secondary) !important;
+  color: var(--mat-sys-on-surface) !important;
+}
 
-  mat-nav-list {
-    padding-top: 0;
+.footer__link {
+  color: var(--mat-sys-on-surface) !important;
+  text-decoration: none;
+}
 
-    a[mat-list-item] {
-      height: 48px;
+.example-container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
 
-      &.active {
-        background-color: var(--mat-sys-primary-container);
-        color: var(--mat-sys-on-primary-container);
-      }
-    }
+.example-sidenav-container {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+
+  /* Sidenav fijo con altura del viewport */
+  ::ng-deep .mat-drawer.custom-sidenav {
+    width: 280px;
+    background-color: var(--mat-sys-surface-container);
+    position: fixed !important;
+    top: 0 !important;
+    bottom: 0 !important;
+    height: 100vh !important; /* Altura del viewport, no del documento */
+    z-index: 1100;
+  }
+
+  ::ng-deep .mat-drawer-backdrop {
+    z-index: 1050;
+  }
+
+  ::ng-deep .mat-drawer-content {
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
   }
 }
 
-@media (max-width: 900px) {
-  .navbar-brand {
-    display: none;
+.main-content {
+  flex: 1;
+  padding: 20px;
+  overflow-y: visible;
+}
+
+/* Estilos para el header del sidenav */
+.sidenav-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px;
+  border-bottom: 1px solid var(--mat-sys-outline-variant);
+  flex-shrink: 0; /* No se encoge */
+
+  .sidenav-title {
+    font-weight: 500;
+    color: var(--mat-sys-on-surface);
+  }
+}
+
+/* Contenedor del sidenav - altura fija del viewport */
+.sidenav-content {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: calc(100vh - 73px); /* Viewport height menos el header */
+  overflow-y: auto; /* Solo scroll interno si es necesario */
+
+  .sidenav-main-menu {
+    flex: 1; /* Toma el espacio disponible */
+    padding-top: 8px;
+    overflow-y: auto; /* Scroll independiente si hay muchos items */
+
+    mat-nav-list a {
+      color: var(--mat-sys-on-surface);
+      text-decoration: none;
+    }
+  }
+
+  .sidenav-footer-menu {
+    flex-shrink: 0; /* Siempre se mantiene al final */
+    padding-bottom: 16px;
+
+    mat-nav-list {
+      padding-top: 8px;
+
+      a {
+        color: var(--mat-sys-on-surface-variant);
+        text-decoration: none;
+        font-size: 0.875rem;
+
+        ::ng-deep .mat-mdc-list-item {
+          min-height: 40px !important;
+        }
+      }
+    }
   }
 }

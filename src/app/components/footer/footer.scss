@@ -24,8 +24,9 @@
     gap: 12px;
 
     .footer__link {
-      color: #a8c7fa;
+      color: var(--mat-sys-tertiary);
       text-decoration: underline;
+
       &:hover {
         text-decoration: none;
       }
@@ -39,9 +40,6 @@
 
     .footer__settings {
       margin-left: 4px;
-      &:hover {
-        background: #303134;
-      }
     }
   }
 
@@ -50,7 +48,7 @@
     align-items: center;
 
     .footer__feedback {
-      color: #a8c7fa;
+      color: var(--mat-sys-tertiary);
       border: 1px solid #5f6368;
       border-radius: 4px;
       font-size: 14px;
@@ -58,21 +56,18 @@
         margin-right: 6px;
         font-size: 18px;
       }
-      &:hover {
-        background: #303134;
-      }
     }
   }
 
   @media (max-width: 900px) {
     &__container {
       display: none;
-/*       flex-direction: column;
+      /*       flex-direction: column;
       align-items: flex-start;
       gap: 8px;
       padding: 0 12px; */
     }
-/*     &__right {
+    /*     &__right {
       width: 100%;
       .footer__feedback {
         width: 100%;

@@ -1,91 +1,85 @@
 <div class="container">
-  <mat-card>
-    <mat-card-header>
-      <mat-card-title
-        style="font-size: 2rem; line-height: 2.5rem; font-weight: 350"
-        >{{post?.title}}</mat-card-title
-      >
-    </mat-card-header>
+  <section class="header-section">
+    <button
+      mat-icon-button
+      (click)="goBack()"
+      class="back-button"
+      title="Volver a categorías"
+    >
+      <mat-icon>arrow_back</mat-icon>
+    </button>
+  </section>
 
-    <mat-card-content>
-      <markdown>{{post?.content}}</markdown>
+  @if (isLoading()) {
+    <mat-card>
+      <mat-card-content style="text-align: center; padding: 40px;">
+        <p>Cargando artículo...</p>
+      </mat-card-content>
+    </mat-card>
+  } @else if (post()) {
+    <mat-card>
+      <mat-card-header>
+        <mat-card-title
+          style="font-size: 2rem; line-height: 2.5rem; font-weight: 350"
+          >{{post()?.title}}</mat-card-title
+        >
+      </mat-card-header>
 
-<!--       <ol class="steps-list">
-        <li>
-          En una computadora, ve a <mat-chip>https://redif.com.ar/</mat-chip>.
-        </li>
-        <li>
-          En la página de inicio, haz clic en el botón
-          <mat-chip color="accent">Crear cuenta</mat-chip>.
-        </li>
-        <li>
-          Completa el formulario de registro con tus datos personales:
-          <ul class="sub-steps">
-            <li>Nombre y apellido</li>
-            <li>Correo electrónico válido</li>
-            <li>Contraseña segura</li>
-          </ul>
-        </li>
-        <li>
-          Revisa y acepta los <strong>Términos y Condiciones</strong> y las
-          <strong>Políticas de privacidad</strong>.
-        </li>
-        <li>Haz clic en <mat-chip color="accent">Registrarse</mat-chip>.</li>
-        <li>
-          Confirma tu cuenta:
-          <ul class="sub-steps">
-            <li>Abre el correo de confirmación enviado a tu email.</li>
-            <li>Haz clic en el enlace para activar tu cuenta.</li>
-          </ul>
-        </li>
-        <li>
-          ¡Listo! Ahora puedes iniciar sesión en <mat-chip>Redif</mat-chip> con
-          tu usuario y contraseña.
-        </li>
-      </ol> -->
-    </mat-card-content>
-  </mat-card>
+      <mat-card-content>
+        <markdown>{{post()?.content}}</markdown>
+      </mat-card-content>
+    </mat-card>
 
-  <!-- Artículos relacionados -->
-  @if (related && related.length > 0) {
-  <mat-card>
-    <mat-card-header>
-      <mat-card-title>Artículos relacionados</mat-card-title>
-    </mat-card-header>
+    <!-- Artículos relacionados -->
+    @if (related().length > 0) {
+    <mat-card>
+      <mat-card-header>
+        <mat-card-title>Artículos relacionados</mat-card-title>
+      </mat-card-header>
 
-    <mat-card-content>
-      <mat-list>
-        @for (relatedPost of related; track relatedPost.id) {
-        <mat-list-item>
-          <mat-icon matListItemIcon>article</mat-icon>
-          <div matListItemTitle>
-            <a
-              [routerLink]="['/posts', relatedPost.id]"
-              mat-button
-              color="primary"
-            >
-              {{relatedPost.title}}
-            </a>
-          </div>
-        </mat-list-item>
-        }
-      </mat-list>
-    </mat-card-content>
-  </mat-card>
+      <mat-card-content>
+        <mat-list>
+          @for (relatedPost of related(); track relatedPost.id) {
+          <mat-list-item>
+            <mat-icon matListItemIcon>article</mat-icon>
+            <div matListItemTitle>
+              <a
+                [routerLink]="['/posts', relatedPost.id]"
+                mat-button
+                color="primary"
+              >
+                {{relatedPost.title}}
+              </a>
+            </div>
+          </mat-list-item>
+          }
+        </mat-list>
+      </mat-card-content>
+    </mat-card>
+    }
+
+    <mat-divider></mat-divider>
+
+    <mat-card>
+      <mat-card-content class="feedback-content">
+        <p style="font-weight: 500">¿Te resultó útil esto?</p>
+
+        <div class="feedback-buttons">
+          <button mat-raised-button>Sí</button>
+          <button mat-raised-button>No</button>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  } @else {
+    <mat-card>
+      <mat-card-content style="text-align: center; padding: 40px;">
+        <p>Artículo no encontrado</p>
+        <button mat-raised-button color="primary" routerLink="/home">
+          Volver al inicio
+        </button>
+      </mat-card-content>
+    </mat-card>
   }
-
-  <mat-divider></mat-divider>
-
-  <mat-card>
-    <mat-card-content class="feedback-content">
-      <p style="font-weight: 500">¿Te resultó útil esto?</p>
-
-      <div class="feedback-buttons">
-        <button mat-raised-button>Sí</button>
-        <button mat-raised-button>No</button>
-      </div>
-    </mat-card-content>
-  </mat-card>
 </div>
 
 <mat-card class="example-card" appearance="outlined">

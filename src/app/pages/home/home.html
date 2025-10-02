@@ -1,36 +1,58 @@
 <section class="header-page">
   <h2 class="mat-headline-large">¿En que podemos ayudarte?</h2>
 
-  <mat-form-field appearance="outline">
-    <mat-label>Buscar</mat-label>
-    <input matInput placeholder="Describe tu problema" />
-    <button mat-icon-button matSuffix aria-label="Buscar">
-      <mat-icon>search</mat-icon>
-    </button>
-  </mat-form-field>
+  <form [formGroup]="formularioBusqueda" (ngSubmit)="send()">
+    <mat-form-field appearance="outline">
+      <mat-label>Buscar</mat-label>
+      <input
+        matInput
+        placeholder="Describe tu problema"
+        name="busqueda"
+        formControlName="busqueda"
+      />
+      <button
+        mat-icon-button
+        matSuffix
+        aria-label="Buscar"
+        type="submit"
+        [routerLink]="['/search']"
+        [queryParams]="{q: formularioBusqueda.value.busqueda}"
+      >
+        <mat-icon>search</mat-icon>
+      </button>
+    </mat-form-field>
+  </form>
 </section>
 
-@if (category_parent()) {
-<section class="example-card">
-  <p class="mat-body-medium">Explora los temas de ayuda</p>
-  <mat-accordion class="custom-accordion">
-    @for (cat of taxonomy(); track cat.id) {
-    <mat-expansion-panel>
-      <mat-expansion-panel-header>
-        <mat-panel-title>{{cat.title}}</mat-panel-title>
-      </mat-expansion-panel-header>
+<section class="category_section">
+  <p>
+    Para empezar, selecciona tu rol y descubre la información que mejor se
+    adapta a ti
+  </p>
 
-      @if (cat.post.length) { @for (post of cat.post; track post.id) {
-      <button
-        mat-raised-button
-        class="full-width"
-        [routerLink]="['/posts', post.id]"
-      >
-        {{ post.title }}
-      </button>
-      } } </mat-expansion-panel
-    >}
-  </mat-accordion>
+  <div class="category_buttons">
+    <button
+      matButton="filled"
+      class="role_button"
+      (click)="handleParent('Alumnos')"
+    >
+      Soy Alumno
+    </button>
+    <button
+      matButton="filled"
+      class="role_button"
+      (click)="handleParent('Profesores')"
+    >
+      Soy Profesor
+    </button>
+    <button
+      matButton="filled"
+      class="role_button"
+      (click)="handleParent('Administración')"
+    >
+      Soy Administrador
+    </button>
+  </div>
 </section>
 
 <mat-card class="example-card" appearance="outlined">
@@ -71,36 +93,3 @@
     </mat-card>
   </mat-card-content>
 </mat-card>
-} @else {
-
-<section class="category_section">
-  <p>
-    Para empezar, selecciona tu rol y descubre la información que mejor se
-    adapta a ti
-  </p>
-
-  <div class="category_buttons">
-    <button
-      matButton="outlined"
-      class="role_button"
-      (click)="handleParent('Alumnos')"
-    >
-      Soy Alumno
-    </button>
-    <button
-      matButton="outlined"
-      class="role_button"
-      (click)="handleParent('Profesores')"
-    >
-      Soy Profesor
-    </button>
-    <button
-      matButton="outlined"
-      class="role_button"
-      (click)="handleParent('Administración')"
-    >
-      Soy Administrador
-    </button>
-  </div>
-</section>
-}

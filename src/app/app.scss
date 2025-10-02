@@ -6,8 +6,10 @@
 
 .main-content {
   flex: 1;
-  padding-top: 70px; 
+  padding-top: 80px; // 64px del navbar + 16px de margen
   padding-bottom: 20px;
+  padding-left: 16px;
+  padding-right: 16px;
   overflow-y: auto;
 }
 

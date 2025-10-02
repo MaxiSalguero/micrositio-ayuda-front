@@ -38,4 +38,8 @@ export class ApiService {
   getTaxonomy(): Observable<ITaxonomy[]> {
     return this._httpClient.get<ITaxonomy[]>(`${this.baseUrl}/taxonomy`);
   }
+
+  search(query: string): Observable<any> {
+    return this._httpClient.get<any>(`${this.baseUrl}/search?q=${query}`);
+  }
 }

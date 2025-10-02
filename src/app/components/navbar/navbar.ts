@@ -1,28 +1,31 @@
 import { Component } from '@angular/core';
+import { RouterOutlet } from '@angular/router';
 import { MatButtonModule } from '@angular/material/button';
-import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
-import { MatInputModule } from '@angular/material/input';
-import { MatToolbarModule } from '@angular/material/toolbar';
-import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatListModule } from '@angular/material/list';
-import { RouterLink, RouterLinkActive } from '@angular/router';
+import { MatSidenavModule } from '@angular/material/sidenav';
+import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatDividerModule } from '@angular/material/divider';
+import { Footer } from '../footer/footer';
 
 @Component({
   selector: 'app-navbar',
   imports: [
-    RouterLink,
-    RouterLinkActive,
-    MatSidenavModule,
+    RouterOutlet,
     MatIconModule,
-    MatInputModule,
     MatButtonModule,
-    MatFormFieldModule,
-    MatInputModule,
     MatToolbarModule,
+    MatSidenavModule,
     MatListModule,
+    MatDividerModule,
+    Footer,
   ],
   templateUrl: './navbar.html',
   styleUrl: './navbar.scss',
 })
-export class Navbar {}
+export class Navbar {
+  protected readonly fillerNav = Array.from(
+    { length: 4 },
+    (_, i) => `Nav Item ${i + 1}`
+  );
+}

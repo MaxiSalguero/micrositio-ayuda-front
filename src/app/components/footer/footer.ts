@@ -10,8 +10,8 @@ import { MatIconModule } from '@angular/material/icon';
   templateUrl: './footer.html',
   styleUrl: './footer.scss',
 })
-export class Footer implements OnInit {
-  private platformId = inject(PLATFORM_ID);
+export class Footer {
+/*   private platformId = inject(PLATFORM_ID);
   
   currentTheme: 'redif-light-theme' | 'redif-dark-theme' = 'redif-light-theme';
 
@@ -54,5 +54,5 @@ export class Footer implements OnInit {
   
   isDarkTheme(): boolean {
     return this.currentTheme === 'redif-dark-theme';
-  }
+  } */
 }

@@ -1,0 +1,22 @@
+.list-container {
+  display: flex;
+  justify-content: center;
+}
+
+mat-list {
+  width: 100%;
+  max-width: 800px;
+}
+
+mat-list-item [matListItemIcon] {
+  color: var(--mat-sys-tertiary);
+}
+
+mat-list-item p[matListItemLine] {
+  font-size: 14px;
+  margin: 4px 0 0 0;
+}
+
+mat-list-item[role="link"] {
+  cursor: pointer;
+}

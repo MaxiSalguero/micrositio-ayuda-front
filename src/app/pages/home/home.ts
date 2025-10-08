@@ -10,7 +10,7 @@ import {
   ReactiveFormsModule,
 } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
-import { MatCardModule } from '@angular/material/card';
+import { SupportBox } from '../../components/support-box/support-box';
 
 @Component({
   selector: 'app-home',
@@ -20,9 +20,9 @@ import { MatCardModule } from '@angular/material/card';
     MatIconModule,
     FormsModule,
     MatButtonModule,
-    MatCardModule,
     ReactiveFormsModule,
     RouterLink,
+    SupportBox,
   ],
   templateUrl: './home.html',
   styleUrl: './home.scss',

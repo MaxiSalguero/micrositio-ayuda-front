@@ -19,6 +19,7 @@ import { MatDividerModule } from '@angular/material/divider';
 import { IRelated, Post } from '../../models/related.model';
 import { MarkdownComponent } from 'ngx-markdown';
 import { toSignal } from '@angular/core/rxjs-interop';
+import { SupportBox } from '../../components/support-box/support-box';
 
 @Component({
   selector: 'app-posts',
@@ -32,6 +33,7 @@ import { toSignal } from '@angular/core/rxjs-interop';
     MatIconModule,
     RouterModule,
     MarkdownComponent,
+    SupportBox,
   ],
   templateUrl: './posts.html',
   styleUrl: './posts.scss',

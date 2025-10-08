@@ -1,0 +1,27 @@
+.example-card-content {
+  max-width: 90%;
+  margin: 20px auto;
+
+  .card-link,
+  .card-link:visited,
+  .card-link:hover,
+  .card-link:active {
+    color: inherit;
+    text-decoration: none;
+    display: block; /* hace clickeable toda la tarjeta */
+  }
+
+  .example-header-image {
+    border-radius: 0%;
+    background-image: var(--imgUrl);
+    background-size: cover;
+    margin: auto 0;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .example-card-content {
+    max-width: 90%;
+    margin: 8px auto;
+  }
+}

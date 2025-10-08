@@ -1,12 +1,28 @@
-import { ApplicationConfig, provideBrowserGlobalErrorListeners, provideZoneChangeDetection, isDevMode, importProvidersFrom } from '@angular/core';
+import {
+  ApplicationConfig,
+  provideBrowserGlobalErrorListeners,
+  provideZoneChangeDetection,
+  isDevMode,
+  DOCUMENT,
+  ErrorHandler,
+} from '@angular/core';
 import { provideRouter } from '@angular/router';
 
 import { routes } from './app.routes';
-import { provideClientHydration, withEventReplay } from '@angular/platform-browser';
+import {
+  provideClientHydration,
+  withEventReplay,
+} from '@angular/platform-browser';
 import { provideServiceWorker } from '@angular/service-worker';
-import { provideHttpClient, withFetch, withInterceptorsFromDi } from '@angular/common/http';
+import {
+  HttpClient,
+  provideHttpClient,
+  withFetch,
+  withInterceptorsFromDi,
+} from '@angular/common/http';
 import { provideMarkdown } from 'ngx-markdown';
-
+import { MatIconRegistry } from '@angular/material/icon';
+import { DomSanitizer } from '@angular/platform-browser';
 export const appConfig: ApplicationConfig = {
   providers: [
     provideBrowserGlobalErrorListeners(),
@@ -17,9 +33,44 @@ export const appConfig: ApplicationConfig = {
       withInterceptorsFromDi() // Permite que los interceptores definidos con el token HTTP_INTERCEPTORS sigan funcionando
     ),
     provideMarkdown(),
-    provideRouter(routes), provideClientHydration(withEventReplay()), provideServiceWorker('ngsw-worker.js', {
-            enabled: !isDevMode(),
-            registrationStrategy: 'registerWhenStable:30000'
-          })
-  ]
+    provideRouter(routes),
+    provideClientHydration(withEventReplay()),
+    provideServiceWorker('ngsw-worker.js', {
+      enabled: !isDevMode(),
+      registrationStrategy: 'registerWhenStable:30000',
+    }),
+
+    // Inicialización de íconos personalizados
+    {
+      provide: MatIconRegistry,
+      deps: [HttpClient, DomSanitizer, DOCUMENT, ErrorHandler],
+      useFactory: (
+        http: HttpClient,
+        sanitizer: DomSanitizer,
+        document: Document,
+        errorHandler: ErrorHandler
+      ) => {
+        const registry = new MatIconRegistry(
+          http,
+          sanitizer,
+          document,
+          errorHandler
+        );
+
+        registry.addSvgIcon(
+          'redif',
+          sanitizer.bypassSecurityTrustResourceUrl('/images/icon-robot.svg')
+        );
+
+        registry.addSvgIcon(
+          'redif-dark',
+          sanitizer.bypassSecurityTrustResourceUrl(
+            '/images/icono-robot-dark.svg'
+          )
+        );
+
+        return registry;
+      },
+    },
+  ],
 };

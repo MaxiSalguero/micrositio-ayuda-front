@@ -11,112 +11,75 @@
   </section>
 
   @if (isLoading()) {
-    <mat-card>
-      <mat-card-content style="text-align: center; padding: 40px;">
-        <p>Cargando artículo...</p>
-      </mat-card-content>
-    </mat-card>
+  <mat-card>
+    <mat-card-content style="text-align: center; padding: 40px">
+      <p>Cargando artículo...</p>
+    </mat-card-content>
+  </mat-card>
   } @else if (post()) {
-    <mat-card>
-      <mat-card-header>
-        <mat-card-title
-          style="font-size: 2rem; line-height: 2.5rem; font-weight: 350"
-          >{{post()?.title}}</mat-card-title
-        >
-      </mat-card-header>
+  <mat-card>
+    <mat-card-header>
+      <mat-card-title
+        style="font-size: 2rem; line-height: 2.5rem; font-weight: 350"
+        >{{post()?.title}}</mat-card-title
+      >
+    </mat-card-header>
 
-      <mat-card-content>
-        <markdown>{{post()?.content}}</markdown>
-      </mat-card-content>
-    </mat-card>
+    <mat-card-content>
+      <markdown>{{post()?.content}}</markdown>
+    </mat-card-content>
+  </mat-card>
 
-    <!-- Artículos relacionados -->
-    @if (related().length > 0) {
-    <mat-card>
-      <mat-card-header>
-        <mat-card-title>Artículos relacionados</mat-card-title>
-      </mat-card-header>
+  <!-- Artículos relacionados -->
+  @if (related().length > 0) {
+  <mat-card>
+    <mat-card-header>
+      <mat-card-title>Artículos relacionados</mat-card-title>
+    </mat-card-header>
 
-      <mat-card-content>
-        <mat-list>
-          @for (relatedPost of related(); track relatedPost.id) {
-          <mat-list-item>
-            <mat-icon matListItemIcon>article</mat-icon>
-            <div matListItemTitle>
-              <a
-                [routerLink]="['/posts', relatedPost.id]"
-                mat-button
-                color="primary"
-              >
-                {{relatedPost.title}}
-              </a>
-            </div>
-          </mat-list-item>
-          }
-        </mat-list>
-      </mat-card-content>
-    </mat-card>
-    }
+    <mat-card-content>
+      <mat-list>
+        @for (relatedPost of related(); track relatedPost.id) {
+        <mat-list-item>
+          <mat-icon matListItemIcon>article</mat-icon>
+          <div matListItemTitle>
+            <a
+              [routerLink]="['/posts', relatedPost.id]"
+              mat-button
+              color="primary"
+            >
+              {{relatedPost.title}}
+            </a>
+          </div>
+        </mat-list-item>
+        }
+      </mat-list>
+    </mat-card-content>
+  </mat-card>
+  }
 
-    <mat-divider></mat-divider>
+  <mat-divider></mat-divider>
 
-    <mat-card>
-      <mat-card-content class="feedback-content">
-        <p style="font-weight: 500">¿Te resultó útil esto?</p>
+  <mat-card>
+    <mat-card-content class="feedback-content">
+      <p style="font-weight: 500">¿Te resultó útil esto?</p>
 
-        <div class="feedback-buttons">
-          <button mat-raised-button>Sí</button>
-          <button mat-raised-button>No</button>
-        </div>
-      </mat-card-content>
-    </mat-card>
+      <div class="feedback-buttons">
+        <button mat-raised-button>Sí</button>
+        <button mat-raised-button>No</button>
+      </div>
+    </mat-card-content>
+  </mat-card>
   } @else {
-    <mat-card>
-      <mat-card-content style="text-align: center; padding: 40px;">
-        <p>Artículo no encontrado</p>
-        <button mat-raised-button color="primary" routerLink="/home">
-          Volver al inicio
-        </button>
-      </mat-card-content>
-    </mat-card>
+  <mat-card>
+    <mat-card-content style="text-align: center; padding: 40px">
+      <p>Artículo no encontrado</p>
+      <button mat-raised-button color="primary" routerLink="/home">
+        Volver al inicio
+      </button>
+    </mat-card-content>
+  </mat-card>
   }
 </div>
 
-<mat-card class="example-card" appearance="outlined">
-  <mat-card-header style="justify-content: center">
-    <mat-card-title>¿Necesitas más ayuda?</mat-card-title>
-    <mat-card-subtitle
-      style="
-        font-size: 0.875rem;
-        text-align: center;
-        font-weight: 400;
-        line-height: 1.25rem;
-      "
-      >Prueba estos próximos pasos:</mat-card-subtitle
-    >
-  </mat-card-header>
-
-  <mat-card-content>
-    <mat-card class="example-card-content">
-      <a mat-card href="#" class="card-link">
-        <mat-card-header style="padding: 16px">
-          <div mat-card-avatar class="example-header-image"></div>
-          <mat-card-title
-            style="
-              font-size: 1rem;
-              font-weight: 500;
-              letter-spacing: 0rem;
-              line-height: 1.5rem;
-              margin: 0;
-            "
-            >Contactar a un asesor de Redif</mat-card-title
-          >
-          <mat-card-subtitle
-            style="font-size: 0.875rem; font-weight: 400; line-height: 1.5rem"
-            >Obten respuesta de nuestro equipo de soporte</mat-card-subtitle
-          >
-        </mat-card-header></a
-      >
-    </mat-card>
-  </mat-card-content>
-</mat-card>
+<app-support-box />

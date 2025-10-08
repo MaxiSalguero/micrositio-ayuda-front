@@ -29,10 +29,10 @@ body {
   background-color: var(--mat-sys-background);
   overflow-y: auto;
 
-  &.redif-light-theme {
+  &.light-theme {
     color-scheme: light;
   }
-  &.redif-dark-theme {
+  &.dark-theme {
     color-scheme: dark;
   }
 }

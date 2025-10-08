@@ -15,21 +15,16 @@
   align-items: center;
   gap: 10px;
 
-  & img {
-    height: 55px;
-    max-height: 100%;
-    border-radius: 20px;
-    margin-right: 5px;
+  & mat-icon {
+    width: 2rem;
+    height: 2rem;
+    margin-bottom: 10px;
   }
 }
 
 .navbar-title {
   font-weight: 400;
   font-size: 1.2rem;
-}
-
-.spacer {
-  flex: 1 1 auto;
 }
 
 .active {
@@ -132,5 +127,19 @@
         }
       }
     }
+  }
+}
+
+#custom-panel {
+  background: none;
+  box-shadow: none;
+
+  .mat-expansion-panel-header .mat-expansion-panel-header-title {
+    font-weight: 400;
+  }
+
+  .custom-group{
+    display: flex;
+    flex-direction: column;
   }
 }

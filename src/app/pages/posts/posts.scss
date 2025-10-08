@@ -59,30 +59,3 @@
 mat-chip {
   margin: 0 4px;
 }
-
-.example-card {
-  margin: 32px auto;
-  max-width: 720px;
-
-  .example-card-content {
-    background: none;
-    box-shadow: none;
-
-    .card-link {
-      text-decoration: none;
-      color: inherit;
-
-      &:hover {
-        background-color: var(--mat-sys-surface-variant);
-        border-radius: 8px;
-      }
-    }
-
-    .example-header-image {
-      background-image: url('../../../../public/images/redif_ar_logo.jpeg');
-      background-size: cover;
-      background-position: center;
-      border-radius: 50%;
-    }
-  }
-}

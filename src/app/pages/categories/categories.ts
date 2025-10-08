@@ -16,6 +16,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatExpansionModule, MatAccordion } from '@angular/material/expansion';
 import { MatIconModule } from '@angular/material/icon';
 import { forkJoin } from 'rxjs';
+import { SupportBox } from '../../components/support-box/support-box';
 
 @Component({
   selector: 'app-categories',
@@ -25,6 +26,7 @@ import { forkJoin } from 'rxjs';
     MatExpansionModule,
     MatIconModule,
     RouterLink,
+    SupportBox,
   ],
   templateUrl: './categories.html',
   styleUrls: ['./categories.scss'],

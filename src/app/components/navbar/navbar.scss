@@ -10,15 +10,15 @@
   position: static !important;
 }
 
-.navbar-brand {
-  display: flex;
-  align-items: center;
-  gap: 10px;
+.mat-spacer {
+  display: none;
+}
 
+.navbar-brand {
   & mat-icon {
     width: 2rem;
     height: 2rem;
-    margin-bottom: 10px;
+    margin-bottom: 3px;
   }
 }
 
@@ -130,16 +130,20 @@
   }
 }
 
-#custom-panel {
-  background: none;
-  box-shadow: none;
+.toggle-buton {
+  margin: 5px 5px 5px 12px;
+}
 
-  .mat-expansion-panel-header .mat-expansion-panel-header-title {
-    font-weight: 400;
+@media screen and (max-width: 768px) {
+  .mat-spacer {
+    display: block;
+    flex: 1 1 auto;
   }
+}
 
-  .custom-group{
-    display: flex;
-    flex-direction: column;
+@media screen and (max-width: 480px) {
+  .mat-spacer {
+    display: block;
+    flex: 1 1 auto;
   }
 }

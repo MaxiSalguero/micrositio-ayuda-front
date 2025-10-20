@@ -16,18 +16,6 @@
               <mat-icon matListItemIcon>launch</mat-icon>
               <span matListItemTitle>Ir a Redif</span>
             </a>
-            <mat-expansion-panel id="custom-panel">
-              <mat-expansion-panel-header>
-                <mat-panel-title>Modo oscuro</mat-panel-title>
-              </mat-expansion-panel-header>
-              <mat-radio-group
-                [value]="themeService.isDarkMode() ? 'dark' : 'light'"
-                (change)="themeService.setDarkMode($event.value === 'dark')"
-              >
-                <mat-radio-button value="dark">Siempre activado</mat-radio-button>
-                <mat-radio-button value="light">Siempre desactivado</mat-radio-button>
-              </mat-radio-group>
-            </mat-expansion-panel>
           </mat-nav-list>
         </div>
 
@@ -44,9 +32,18 @@
             <a mat-list-item href="https://demo.redif.ar/about/terms">
               <span matListItemTitle>Condiciones del servicio</span>
             </a>
-            <a mat-list-item href="mailto:soporte@redif.com">
+            <a mat-list-item href="mailto:soporte@redif.ar">
               <span matListItemTitle>Enviar comentarios</span>
             </a>
+            <div mat-list-item>
+              <mat-slide-toggle
+                class="toggle-buton"
+                [checked]="themeService.isDarkMode()"
+                (change)="themeService.setDarkMode($event.checked)"
+              >
+              </mat-slide-toggle>
+              <span matListItemTitle>Modo oscuro</span>
+            </div>
           </mat-nav-list>
         </div>
       </div>
@@ -60,6 +57,7 @@
         <span class="navbar-title"
           ><a href="/home" class="footer__link">Ayuda de Redif</a></span
         >
+        <span class="mat-spacer"></span>
         <span class="navbar-brand"><mat-icon svgIcon="redif"></mat-icon></span>
       </mat-toolbar>
 

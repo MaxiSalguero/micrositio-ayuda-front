@@ -6,6 +6,7 @@
 
 .support-box-content{
   display: flex;
+  justify-content: center;
 }
 
 @media screen and (max-width: 768px) {
@@ -14,7 +15,6 @@
     }
 
   .example-card {
-    margin: 16px;
     padding: 8px 0;
   }
 }

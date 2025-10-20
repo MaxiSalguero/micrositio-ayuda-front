@@ -1,17 +1,14 @@
+.categories-container {
+  max-width: 720px;
+  margin: 0 auto;
+  padding-top: 1rem;
+}
+
 .header-page {
   display: flex;
   align-items: center;
   gap: 16px;
   margin-bottom: 32px;
-
-  .back-button {
-    flex-shrink: 0;
-    color: var(--mat-sys-primary);
-
-    &:hover {
-      background-color: var(--mat-sys-primary-container);
-    }
-  }
 
   h2 {
     margin: 0;

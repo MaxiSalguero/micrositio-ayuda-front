@@ -1,9 +1,10 @@
 .container {
   max-width: 720px;
-  margin: 32px auto;
-  padding: 40px;
+  margin: 1rem auto;
+  padding: 1rem 3rem;
   min-height: calc(100vh - 140px);
-  border: 1.5px solid var(--mat-card-outlined-outline-color, var(--mat-sys-outline-variant));
+  border: 1.5px solid
+    var(--mat-card-outlined-outline-color, var(--mat-sys-outline-variant));
   border-radius: 10px;
   box-shadow: none;
 
@@ -16,33 +17,40 @@
 }
 
 .header-section {
-  margin-bottom: 20px;
-
-  .back-button {
-    color: var(--mat-sys-primary);
-
-    &:hover {
-      background-color: var(--mat-sys-primary-container);
-    }
-  }
+  display: flex;
+  align-items: center;
+  gap: 16px;
 }
 
-.steps-list {
-  padding-left: 20px;
+/* Lista de artículos relacionados */
 
-  li {
-    margin-bottom: 12px;
-    line-height: 1.6;
-  }
+.related-title {
+  margin-bottom: 0.5rem;
+}
 
-  .sub-steps {
-    margin-top: 8px;
-    padding-left: 20px;
+a[mat-list-item].related-item {
+  align-items: flex-start; /* por si el título ocupa varias líneas */
+  gap: 8px; /* pequeño espacio entre icono y texto */
+  cursor: pointer !important; /* fuerza el pointer */
+}
 
-    li {
-      margin-bottom: 6px;
-    }
-  }
+a[mat-list-item] [matListItemIcon] {
+  color: var(--mat-sys-primary);
+}
+
+a[mat-list-item] .related-item-title {
+  min-width: 0; /* importante para permitir el wrap dentro de flex */
+  white-space: normal; /* permite salto de línea */
+  word-break: break-word; /* corta palabras muy largas si es necesario */
+  line-height: 1.35;
+}
+
+a[mat-list-item].related-item:hover .related-item-title {
+  text-decoration: underline;
+}
+
+mat-list a[mat-list-item].related-item + a[mat-list-item].related-item {
+  border-top: 1px solid color-mix(in oklab, currentColor 15%, transparent);
 }
 
 .feedback-content {
@@ -56,6 +64,52 @@
   margin: 6px 0;
 }
 
-mat-chip {
-  margin: 0 4px;
+@media screen and (max-width: 768px) {
+  .container {
+    padding: 1rem;
+    .mat-headline-large {
+      font-size: 1.75rem;
+    }
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .container {
+    padding: 0.5rem;
+    .mat-headline-large {
+      font-size: 1.75rem;
+    }
+    .feedback-content {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0;
+    }
+  }
+}
+
+@media (max-width: 360px) {
+  .container {
+    .mat-headline-large {
+      font-size: 1.5rem;
+      margin: 1rem 0;
+    }
+  }
+
+  .related-item-title {
+    font-size: 0.95rem;
+  }
+
+  a[mat-list-item].related-item {
+    gap: 0;
+  }
+}
+
+@media (max-width: 320px) {
+  .container {
+    padding: 0;
+  }
+  .related-item-title {
+    font-size: 0.95rem;
+  }
 }

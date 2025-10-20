@@ -2,7 +2,7 @@ import { Routes } from '@angular/router';
 import { Home } from './pages/home/home';
 import { Posts } from './pages/posts/posts';
 import { Categories } from './pages/categories/categories';
-import { Search } from './pages/search/search';
+import { SearchResults } from './pages/search-results/search-results';
 
 export const routes: Routes = [
   { path: '', redirectTo: '/home', pathMatch: 'full' },
@@ -19,7 +19,7 @@ export const routes: Routes = [
   },
   {
     path: 'search',
-    component: Search,
+    component: SearchResults,
     title: 'Search Results',
   },
   { path: '**', redirectTo: '', pathMatch: 'full' },

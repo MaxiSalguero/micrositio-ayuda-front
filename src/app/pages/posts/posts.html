@@ -1,13 +1,8 @@
 <div class="container">
   <section class="header-section">
-    <button
-      mat-icon-button
-      (click)="goBack()"
-      class="back-button"
-      title="Volver a categorías"
-    >
-      <mat-icon>arrow_back</mat-icon>
-    </button>
+    <app-back-button (click)="goBack()" />
+
+    <h2 class="mat-headline-large">Volver atras</h2>
   </section>
 
   @if (isLoading()) {
@@ -34,24 +29,24 @@
   @if (related().length > 0) {
   <mat-card>
     <mat-card-header>
-      <mat-card-title>Artículos relacionados</mat-card-title>
+      <mat-card-title class="related-title"
+        >Artículos relacionados</mat-card-title
+      >
     </mat-card-header>
 
     <mat-card-content>
       <mat-list>
         @for (relatedPost of related(); track relatedPost.id) {
-        <mat-list-item>
+        <a
+          mat-list-item
+          [routerLink]="['/posts', relatedPost.id]"
+          class="related-item"
+        >
           <mat-icon matListItemIcon>article</mat-icon>
-          <div matListItemTitle>
-            <a
-              [routerLink]="['/posts', relatedPost.id]"
-              mat-button
-              color="primary"
-            >
-              {{relatedPost.title}}
-            </a>
+          <div matListItemTitle class="related-item-title">
+            {{ relatedPost.title }}
           </div>
-        </mat-list-item>
+        </a>
         }
       </mat-list>
     </mat-card-content>
@@ -61,14 +56,20 @@
   <mat-divider></mat-divider>
 
   <mat-card>
+    @if(!this.isLiked()){
     <mat-card-content class="feedback-content">
       <p style="font-weight: 500">¿Te resultó útil esto?</p>
 
       <div class="feedback-buttons">
-        <button mat-raised-button>Sí</button>
-        <button mat-raised-button>No</button>
+        <button mat-raised-button (click)="handleLike(true)">Sí</button>
+        <button mat-raised-button (click)="handleLike(false)">No</button>
       </div>
     </mat-card-content>
+    } @else {
+    <mat-card-content>
+      <p>Gracias por tus comentarios.</p>
+    </mat-card-content>
+    }
   </mat-card>
   } @else {
   <mat-card>

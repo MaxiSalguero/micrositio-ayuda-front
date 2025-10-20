@@ -1,0 +1,19 @@
+<form [formGroup]="formularioBusqueda" (ngSubmit)="send()">
+  <mat-form-field appearance="outline">
+    <mat-label>Buscar</mat-label>
+    <input
+      matInput
+      placeholder="Describe tu problema"
+      name="busqueda"
+      formControlName="busqueda"
+    />
+    <button matPrefix matIconButton aria-label="Buscar" type="submit">
+      <mat-icon>search</mat-icon>
+    </button>
+    @if (formularioBusqueda.value.busqueda) {
+    <button type="reset" matSuffix matIconButton aria-label="Clear">
+      <mat-icon>close</mat-icon>
+    </button>
+    }
+  </mat-form-field>
+</form>

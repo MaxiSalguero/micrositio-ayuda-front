@@ -17,6 +17,7 @@ import { MatExpansionModule, MatAccordion } from '@angular/material/expansion';
 import { MatIconModule } from '@angular/material/icon';
 import { forkJoin } from 'rxjs';
 import { SupportBox } from '../../components/support-box/support-box';
+import { BackButton } from '../../components/back-button/back-button';
 
 @Component({
   selector: 'app-categories',
@@ -27,6 +28,7 @@ import { SupportBox } from '../../components/support-box/support-box';
     MatIconModule,
     RouterLink,
     SupportBox,
+    BackButton,
   ],
   templateUrl: './categories.html',
   styleUrls: ['./categories.scss'],
@@ -62,9 +64,9 @@ export class Categories implements OnInit {
 
     // Mapear roles de URL a títulos de API
     const roleMap: { [key: string]: string } = {
-      'alumnos': 'Alumnos',
-      'profesores': 'Profesores',
-      'administracion': 'Administración'
+      alumnos: 'Alumnos',
+      profesores: 'Profesores',
+      administracion: 'Administración',
     };
 
     const apiRole = roleMap[role];
@@ -92,7 +94,7 @@ export class Categories implements OnInit {
               this.categories.set([]);
               this._navigationState.updateFullState({
                 selectedRole: apiRole,
-                categories: []
+                categories: [],
               });
               this.isLoading.set(false);
               return;
@@ -105,7 +107,7 @@ export class Categories implements OnInit {
                 // Actualizar estado global
                 this._navigationState.updateFullState({
                   selectedRole: apiRole,
-                  categories: categoriesWithPosts
+                  categories: categoriesWithPosts,
                 });
 
                 this.isLoading.set(false);
@@ -131,9 +133,9 @@ export class Categories implements OnInit {
 
   getRoleName(): string {
     const roleNames: { [key: string]: string } = {
-      'alumnos': 'Alumnos',
-      'profesores': 'Profesores',
-      'administracion': 'Administración'
+      alumnos: 'Alumnos',
+      profesores: 'Profesores',
+      administracion: 'Administración',
     };
     const current = this.selectedRole();
     return roleNames[current] || current;

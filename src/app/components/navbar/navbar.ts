@@ -10,6 +10,7 @@ import { Footer } from '../footer/footer';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatRadioModule } from '@angular/material/radio';
 import { ThemeService } from '../../services/theme.service';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 
 @Component({
   selector: 'app-navbar',
@@ -23,6 +24,7 @@ import { ThemeService } from '../../services/theme.service';
     MatSidenavModule,
     MatListModule,
     MatDividerModule,
+    MatSlideToggleModule,
     Footer,
   ],
   templateUrl: './navbar.html',

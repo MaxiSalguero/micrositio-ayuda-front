@@ -1,27 +1,7 @@
 <section class="header-page">
   <h2 class="mat-headline-large">¿Qué estás buscando?</h2>
 
-  <form [formGroup]="formularioBusqueda" (ngSubmit)="send()">
-    <mat-form-field appearance="outline">
-      <mat-label>Buscar</mat-label>
-      <input
-        matInput
-        placeholder="Describe tu problema"
-        name="busqueda"
-        formControlName="busqueda"
-      />
-      <button
-        mat-icon-button
-        matSuffix
-        aria-label="Buscar"
-        type="submit"
-        [routerLink]="['/search']"
-        [queryParams]="{q: formularioBusqueda.value.busqueda}"
-      >
-        <mat-icon>search</mat-icon>
-      </button>
-    </mat-form-field>
-  </form>
+  <app-search-bar />
 </section>
 
 <section class="category_section">
@@ -55,4 +35,4 @@
   </div>
 </section>
 
-<app-support-box/>
+<app-support-box />

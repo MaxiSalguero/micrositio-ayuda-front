@@ -39,7 +39,16 @@ export class ApiService {
     return this._httpClient.get<ITaxonomy[]>(`${this.baseUrl}/taxonomy`);
   }
 
-  search(query: string): Observable<any> {
-    return this._httpClient.get<any>(`${this.baseUrl}/search?q=${query}`);
+  search(query: string, count: number): Observable<any> {
+    return this._httpClient.get<any>(
+      `${this.baseUrl}/search?q=${query}&count=${count}`
+    );
+  }
+
+  createLike(postId: number, value: boolean): Observable<any> {
+    return this._httpClient.post<any>(`${this.baseUrl}/likes`, {
+      post: postId,
+      value,
+    });
   }
 }

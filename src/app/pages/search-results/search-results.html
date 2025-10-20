@@ -1,0 +1,48 @@
+<div class="list-container">
+  @if(results() && results().length > 0){
+  <mat-list>
+    <app-back-button routerLink="/home" />
+
+    <div mat-subheader class="mat-title-large">
+      Resultados de la búsqueda de {{query()}}
+    </div>
+    <mat-divider></mat-divider>
+    @for (article of results(); track article) {
+    <a
+      mat-list-item
+      role="link"
+      [routerLink]="['/posts', article.id]"
+      (click)="beforeNavigate()"
+    >
+      <mat-icon class="list-icon" matListItemIcon>article</mat-icon>
+      <div matListItemTitle class="list-title">{{article.title}}</div>
+      <div matListItemLine class="list-content">
+        {{article.content | pipeMarkdown}}
+      </div>
+    </a>
+    <mat-divider></mat-divider>
+    }
+  </mat-list>
+  @if(count() == results().length){<button
+    matButton="elevated"
+    (click)="loadMore()"
+  >
+    Ver más</button
+  >} }@else {
+  <mat-card class="custom-card">
+    <mat-card-header>
+      <mat-card-title
+        >Pruebe con otras palabras clave o revise la ortografía</mat-card-title
+      >
+    </mat-card-header>
+    <mat-card-content>
+      <p>No encontramos resultados de ayuda para esta búsqueda</p>
+    </mat-card-content>
+    <mat-card-actions class="card-actions">
+      <button matButton="filled" routerLink="/home">Volver al inicio</button>
+    </mat-card-actions>
+  </mat-card>
+  }
+</div>
+
+<app-support-box />

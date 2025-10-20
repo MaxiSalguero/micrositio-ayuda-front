@@ -1,0 +1,63 @@
+.list-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+mat-list {
+  width: 100%;
+  max-width: 700px;
+  margin-bottom: 1rem;
+}
+
+.mat-title-large {
+  text-align: center;
+}
+
+.list-icon {
+  color: var(--mat-sys-primary);
+  transition: color 120ms ease;
+}
+
+.list-title {
+  min-width: 0;
+  white-space: normal;
+  word-break: break-word;
+}
+
+.list-content {
+  white-space: normal;
+  margin: 0.2rem 0;
+}
+
+a[role="link"]:hover .list-icon {
+  color: var(--mat-sys-on-primary-container);
+}
+
+a[role="link"] {
+  margin-bottom: 0.5rem;
+  /* border-top: 1px solid color-mix(in oklab, currentColor 15%, transparent); */
+  cursor: pointer;
+}
+
+.custom-card {
+  background-color: var(--mat-sys-surface);
+  box-shadow: none;
+  text-align: center;
+
+  mat-card-content {
+    p {
+      margin-bottom: 1rem;
+    }
+  }
+
+  .card-actions {
+    justify-content: center;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  a[role="link"] {
+    height: 5rem;
+  }
+}

@@ -23,6 +23,9 @@ import { toSignal } from '@angular/core/rxjs-interop';
 import { SupportBox } from '../../components/support-box/support-box';
 import { BackButton } from '../../components/back-button/back-button';
 import { isPlatformBrowser } from '@angular/common';
+import { Meta, Title } from '@angular/platform-browser';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'app-posts',
@@ -38,6 +41,7 @@ import { isPlatformBrowser } from '@angular/common';
     MarkdownComponent,
     SupportBox,
     BackButton,
+    MatProgressSpinnerModule,
   ],
   templateUrl: './posts.html',
   styleUrl: './posts.scss',
@@ -49,11 +53,13 @@ export class Posts {
   private _router = inject(Router);
   private _apiService = inject(ApiService);
   private _navigationState = inject(NavigationStateService);
+  private _meta = inject(Meta); // 🔥 NUEVO
+  private _title = inject(Title); // 🔥 NUEVO
 
   // Signals para el estado reactivo
   post = signal<IPost | null>(null);
   related = signal<Post[]>([]);
-  isLoading = signal(true);
+  isLoading = signal(false);
   isLiked = signal(false);
   backUrl = signal<string>('/home');
 
@@ -62,6 +68,19 @@ export class Posts {
   private queryParams = toSignal(this._route.queryParams);
 
   constructor() {
+    // 🔥 NUEVO: Effect para obtener datos del resolver
+    effect(() => {
+      const resolvedData = this._route.snapshot.data['post'];
+      if (resolvedData) {
+        console.log('✅ Post cargado desde resolver (SSR)');
+        this.post.set(resolvedData);
+        this.isLoading.set(false);
+
+        // 🔥 NUEVO: Actualizar meta tags para SEO
+        this.updateMetaTags(resolvedData);
+      }
+    });
+
     // Effect para manejar cambios en los parámetros de la ruta
     effect(() => {
       const currentParams = this.params();
@@ -70,6 +89,8 @@ export class Posts {
         obj && typeof obj === 'object' && Object.keys(obj).length === 0;
 
       if (!currentParams) return;
+
+      // Manejo de backUrl desde localStorage
       if (isEmptyObject(currentQueryParams)) {
         if (isPlatformBrowser(this.platformId)) {
           try {
@@ -109,19 +130,24 @@ export class Posts {
         }
       }
 
-      this.isLoading.set(true);
+      // 🔥 CAMBIO: Solo cargar si NO hay datos del resolver
+      const currentPost = this.post();
+      if (!currentPost || currentPost.id !== currentPostId) {
+        this.isLoading.set(true);
 
-      // Cargar post
-      this._apiService.getPostById(currentPostId).subscribe({
-        next: (data: IPost) => {
-          this.post.set(data);
-          this.isLoading.set(false);
-        },
-        error: (err: any) => {
-          console.error('Error loading post:', err);
-          this.isLoading.set(false);
-        },
-      });
+        this._apiService.getPostById(currentPostId).subscribe({
+          next: (data: IPost) => {
+            this.post.set(data);
+            this.isLoading.set(false);
+            // 🔥 NUEVO: Actualizar meta tags
+            this.updateMetaTags(data);
+          },
+          error: (err: any) => {
+            console.error('Error loading post:', err);
+            this.isLoading.set(false);
+          },
+        });
+      }
 
       // Cargar posts relacionados
       this._apiService.getRelated().subscribe({
@@ -133,6 +159,47 @@ export class Posts {
         },
         error: (err: any) => console.error('Error loading related posts:', err),
       });
+    });
+  }
+
+  // 🔥 NUEVO: Método para actualizar meta tags
+  private updateMetaTags(post: IPost): void {
+    const canonicalUrl = `${environment.appUrl}/posts/${post.id}`;
+
+    this._title.setTitle(`${post.title} | Ayuda de Redif`);
+
+    // Meta tags básicos
+    this._meta.updateTag({
+      name: 'description',
+      content: post.content.substring(0, 160) + '...',
+    });
+
+    // Open Graph tags (para compartir en redes sociales)
+    this._meta.updateTag({ property: 'og:title', content: post.title });
+    this._meta.updateTag({
+      property: 'og:description',
+      content: post.content.substring(0, 160) + '...',
+    });
+    this._meta.updateTag({ property: 'og:type', content: 'article' });
+    this._meta.updateTag({ property: 'og:url', content: canonicalUrl }); // 🔥 URL canónica
+    this._meta.updateTag({
+      property: 'og:image',
+      content: `${environment.appUrl}/images/redif_ar_logo.jpeg`,
+    });
+
+    // Twitter Card tags
+    this._meta.updateTag({
+      name: 'twitter:card',
+      content: 'summary_large_image',
+    });
+    this._meta.updateTag({ name: 'twitter:title', content: post.title });
+    this._meta.updateTag({
+      name: 'twitter:description',
+      content: post.content.substring(0, 160) + '...',
+    });
+    this._meta.updateTag({
+      name: 'twitter:image',
+      content: `${environment.appUrl}/images/redif_ar_logo.jpeg`,
     });
   }
 

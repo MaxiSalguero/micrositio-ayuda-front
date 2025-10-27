@@ -8,7 +8,15 @@
   @if (isLoading()) {
   <section class="loading-section">
     <mat-card>
-      <mat-card-content style="text-align: center; padding: 40px">
+      <mat-card-content
+        style="
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          gap: 1rem;
+        "
+      >
+        <mat-spinner diameter="50"></mat-spinner>
         <p>Cargando categorías...</p>
       </mat-card-content>
     </mat-card>
@@ -44,8 +52,11 @@
   <section class="empty-section">
     <mat-card>
       <mat-card-content style="text-align: center; padding: 40px">
-        <p>No se encontraron categorías para este rol</p>
+        <mat-icon class="error-icon">folder_open</mat-icon>
+        <h2>No hay categorías disponibles</h2>
+        <p>No se encontraron categorías para {{getRoleName()}}</p>
         <button mat-raised-button color="primary" routerLink="/home">
+          <mat-icon>home</mat-icon>
           Volver al inicio
         </button>
       </mat-card-content>

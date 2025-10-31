@@ -5,41 +5,18 @@
   text-align: center;
 }
 
-.full-width {
-  width: 100%;
-  justify-content: flex-start;
-  padding-left: 16px;
-}
-
-.custom-accordion {
-  .mat-expansion-panel {
-    border: 1.5px solid
-      var(--mat-card-outlined-outline-color, var(--mat-sys-outline-variant));
-    box-shadow: none;
-
-    .mat-expansion-panel-header {
-      background: transparent;
-      min-height: 48px;
-
-      &:hover {
-        background: #1a1d1f; //corregir
-      }
-    }
-  }
-}
-
-.category_section {
+.category-section {
   max-width: 720px;
   text-align: center;
   margin: 0 auto;
 
-  .category_buttons {
+  .category-buttons {
     display: flex;
     justify-content: center;
     margin: 30px 0;
     gap: 15px;
 
-    .role_button {
+    .role-button {
       width: 200px;
       height: 70px;
     }

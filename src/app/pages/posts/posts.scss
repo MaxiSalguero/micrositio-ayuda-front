@@ -22,6 +22,24 @@
   gap: 16px;
 }
 
+.loading-content {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+}
+
+.empty-state-content {
+  text-align: center;
+  padding: 40px;
+}
+
+.post-title {
+  font-size: 2rem;
+  line-height: 2.5rem;
+  font-weight: 350;
+}
+
 /* Lista de artículos relacionados */
 
 .related-title {
@@ -56,6 +74,10 @@ mat-list a[mat-list-item].related-item + a[mat-list-item].related-item {
 .feedback-content {
   display: flex;
   gap: 18px;
+
+  .feedback-text {
+    font-weight: 500;
+  }
 }
 
 .feedback-buttons {

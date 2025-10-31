@@ -1,20 +1,31 @@
-.example-card {
+.support-option-card {
   max-width: 720px;
   margin: 32px auto;
   padding: 16px 0;
+
+  .support-box-header {
+    justify-content: center;
+  }
+
+  .support-box-subtitle {
+    font-size: 0.875rem;
+    text-align: center;
+    font-weight: 400;
+    line-height: 1.25rem;
+  }
 }
 
-.support-box-content{
+.support-box-content {
   display: flex;
   justify-content: center;
 }
 
 @media screen and (max-width: 768px) {
-    .support-box-content {
-        flex-direction: column;
-    }
+  .support-box-content {
+    flex-direction: column;
+  }
 
-  .example-card {
+  .support-option-card {
     padding: 8px 0;
   }
 }

@@ -7,21 +7,14 @@
 
   @if (isLoading()) {
   <mat-card>
-    <mat-card-content
-      style="
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        gap: 1rem;
-      "
-    >
+    <mat-card-content class="loading-content">
       <mat-spinner diameter="50"></mat-spinner>
       <p>Cargando artículo...</p>
     </mat-card-content>
   </mat-card>
   } @if (!isLoading() && !post()) {
   <mat-card>
-    <mat-card-content style="text-align: center; padding: 40px">
+    <mat-card-content class="empty-state-content">
       <mat-icon>error_outline</mat-icon>
       <p>Artículo no encontrado</p>
       <button mat-raised-button color="primary" routerLink="/">
@@ -32,10 +25,7 @@
   } @if (!isLoading() && post()) {
   <mat-card>
     <mat-card-header>
-      <mat-card-title
-        style="font-size: 2rem; line-height: 2.5rem; font-weight: 350"
-        >{{post()?.title}}</mat-card-title
-      >
+      <mat-card-title class="post-title">{{post()?.title}}</mat-card-title>
     </mat-card-header>
 
     <mat-card-content>
@@ -76,7 +66,7 @@
   <mat-card>
     @if(!this.isLiked()){
     <mat-card-content class="feedback-content">
-      <p style="font-weight: 500">¿Te resultó útil esto?</p>
+      <p class="feedback-text">¿Te resultó útil esto?</p>
 
       <div class="feedback-buttons">
         <button mat-raised-button (click)="handleLike(true)">Sí</button>

@@ -25,7 +25,34 @@
   }
 }
 
+.loading-content {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+}
+
+.empty-state-content {
+  text-align: center;
+  padding: 40px;
+}
+
 .custom-accordion {
+  .mat-expansion-panel {
+    border: 1.5px solid
+      var(--mat-card-outlined-outline-color, var(--mat-sys-outline-variant));
+    box-shadow: none;
+
+    .mat-expansion-panel-header {
+      background: transparent;
+      min-height: 48px;
+
+      &:hover {
+        background: var(--mat-sys-surface-container-highest);
+      }
+    }
+  }
+
   .post-button {
     width: 100%;
     margin: 8px 0;

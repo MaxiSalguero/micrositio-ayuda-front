@@ -7,7 +7,6 @@ import {
   ViewChild,
 } from '@angular/core';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
-import { Meta, Title } from '@angular/platform-browser'; // 🔥 NUEVO
 import { ApiService } from '../../services/api-service';
 import { NavigationStateService } from '../../services/navigation-state.service';
 import { Category } from '../../models/post.model';
@@ -15,12 +14,13 @@ import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
 import { MatExpansionModule, MatAccordion } from '@angular/material/expansion';
 import { MatIconModule } from '@angular/material/icon';
-import { MatProgressSpinnerModule } from '@angular/material/progress-spinner'; // 🔥 NUEVO
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { SupportBox } from '../../components/support-box/support-box';
 import { BackButton } from '../../components/back-button/back-button';
-import { toSignal } from '@angular/core/rxjs-interop'; // 🔥 NUEVO
-import { CategoriesResolverData } from '../../resolvers/categories.resolver'; // 🔥 NUEVO
-import { environment } from '../../../environments/environment';
+import { toSignal } from '@angular/core/rxjs-interop';
+import { CategoriesResolverData } from '../../resolvers/categories.resolver';
+import { urlToApiRole, apiToUrlRole } from '../../constants/role-mappings';
+import { SeoService } from '../../services/seo.service';
 
 @Component({
   selector: 'app-categories',
@@ -43,8 +43,7 @@ export class Categories {
   private _router = inject(Router);
   private _apiService = inject(ApiService);
   private _navigationState = inject(NavigationStateService);
-  private _meta = inject(Meta); // 🔥 NUEVO
-  private _title = inject(Title); // 🔥 NUEVO
+  private _seo = inject(SeoService);
 
   // Signals
   selectedRole = signal<string>('');
@@ -104,14 +103,7 @@ export class Categories {
   private loadCategoriesForRole(role: string): void {
     this.isLoading.set(true);
 
-    // Mapear roles de URL a títulos de API
-    const roleMap: { [key: string]: string } = {
-      alumnos: 'Alumnos',
-      profesores: 'Profesores',
-      administracion: 'Administración',
-    };
-
-    const apiRole = roleMap[role];
+    const apiRole = urlToApiRole(role);
     if (!apiRole) {
       console.error('Rol no válido:', role);
       this._router.navigate(['/home']);
@@ -182,62 +174,21 @@ export class Categories {
 
   // 🔥 NUEVO: Método para actualizar meta tags
   private updateMetaTags(role: string, categoriesCount: number): void {
-    const title = `Ayuda para ${role} | Ayuda de Redif`;
-    this._title.setTitle(title);
-
-    const description = `Explora ${categoriesCount} categorías de ayuda para ${role}. Encuentra respuestas a tus preguntas.`;
-
     const roleUrl = this.getRoleFromApiRole(role);
-    const canonicalUrl = `${environment.appUrl}/categories/${roleUrl}`;
-
-    this._meta.updateTag({
-      name: 'description',
-      content: description,
+    this._seo.updateMetaTags({
+      title: `Ayuda para ${role} | Ayuda de Redif`,
+      description: `Explora ${categoriesCount} categorías de ayuda para ${role}. Encuentra respuestas a tus preguntas.`,
+      url: `/categories/${roleUrl}`,
     });
-
-    this._meta.updateTag({ property: 'og:title', content: title });
-    this._meta.updateTag({
-      property: 'og:description',
-      content: description,
-    });
-    this._meta.updateTag({ property: 'og:type', content: 'website' });
-    this._meta.updateTag({ property: 'og:url', content: canonicalUrl }); // 🔥 URL canónica
-    this._meta.updateTag({
-      property: 'og:image',
-      content: `${environment.appUrl}/images/redif_ar_logo.jpeg`,
-    });
-
-    this._meta.updateTag({ name: 'twitter:card', content: 'summary' });
-    this._meta.updateTag({ name: 'twitter:title', content: title });
-    this._meta.updateTag({
-      name: 'twitter:description',
-      content: description,
-    });
-    this._meta.updateTag({
-      name: 'twitter:image',
-      content: `${environment.appUrl}/images/redif_ar_logo.jpeg`,
-    });
-
-    console.log('🏷️ Meta tags actualizados para:', role);
   }
 
   // 🔥 NUEVO: Método auxiliar para convertir apiRole a role de URL
   private getRoleFromApiRole(apiRole: string): string {
-    const reverseRoleMap: { [key: string]: string } = {
-      Alumnos: 'alumnos',
-      Profesores: 'profesores',
-      Administración: 'administracion',
-    };
-    return reverseRoleMap[apiRole] || apiRole.toLowerCase();
+    return apiToUrlRole(apiRole) || apiRole.toLowerCase();
   }
 
   getRoleName(): string {
-    const roleNames: { [key: string]: string } = {
-      alumnos: 'Alumnos',
-      profesores: 'Profesores',
-      administracion: 'Administración',
-    };
     const current = this.selectedRole();
-    return roleNames[current] || current;
+    return urlToApiRole(current) || current;
   }
 }

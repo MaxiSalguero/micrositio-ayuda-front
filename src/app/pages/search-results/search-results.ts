@@ -19,8 +19,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { Router } from '@angular/router';
 import { BackButton } from '../../components/back-button/back-button';
 import { isPlatformBrowser } from '@angular/common';
-import { Meta, Title } from '@angular/platform-browser';
-import { environment } from '../../../environments/environment';
+import { SeoService } from '../../services/seo.service';
 
 @Component({
   selector: 'app-search',
@@ -42,8 +41,7 @@ export class SearchResults {
   private route = inject(ActivatedRoute);
   private router = inject(Router);
   private api = inject(ApiService);
-  private _meta = inject(Meta);
-  private _title = inject(Title);
+  private _seo = inject(SeoService);
 
   private qp = toSignal(this.route.queryParams, { initialValue: {} as any });
 
@@ -83,39 +81,12 @@ export class SearchResults {
     const description = resultsCount > 0
       ? `Se encontraron ${resultsCount} resultados para "${query}". Encuentra respuestas a tus preguntas en Ayuda de Redif.`
       : `No se encontraron resultados para "${query}". Intenta con otros términos de búsqueda.`;
-    const canonicalUrl = `${environment.appUrl}/search?q=${encodeURIComponent(query)}`;
 
-    this._title.setTitle(title);
-
-    this._meta.updateTag({
-      name: 'description',
-      content: description,
+    this._seo.updateMetaTags({
+      title,
+      description,
+      url: `/search?q=${encodeURIComponent(query)}`,
     });
-
-    this._meta.updateTag({ property: 'og:title', content: title });
-    this._meta.updateTag({
-      property: 'og:description',
-      content: description,
-    });
-    this._meta.updateTag({ property: 'og:type', content: 'website' });
-    this._meta.updateTag({ property: 'og:url', content: canonicalUrl });
-    this._meta.updateTag({
-      property: 'og:image',
-      content: `${environment.appUrl}/images/redif_ar_logo.jpeg`,
-    });
-
-    this._meta.updateTag({ name: 'twitter:card', content: 'summary' });
-    this._meta.updateTag({ name: 'twitter:title', content: title });
-    this._meta.updateTag({
-      name: 'twitter:description',
-      content: description,
-    });
-    this._meta.updateTag({
-      name: 'twitter:image',
-      content: `${environment.appUrl}/images/redif_ar_logo.jpeg`,
-    });
-
-    console.log(`🏷️ Meta tags actualizados para búsqueda: "${query}" (${resultsCount} resultados)`);
   }
 
   loadMore() {

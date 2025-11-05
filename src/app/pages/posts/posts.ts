@@ -23,9 +23,9 @@ import { toSignal } from '@angular/core/rxjs-interop';
 import { SupportBox } from '../../components/support-box/support-box';
 import { BackButton } from '../../components/back-button/back-button';
 import { isPlatformBrowser } from '@angular/common';
-import { Meta, Title } from '@angular/platform-browser';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import { environment } from '../../../environments/environment';
+import { apiToUrlRole } from '../../constants/role-mappings';
+import { SeoService } from '../../services/seo.service';
 
 @Component({
   selector: 'app-posts',
@@ -53,8 +53,7 @@ export class Posts {
   private _router = inject(Router);
   private _apiService = inject(ApiService);
   private _navigationState = inject(NavigationStateService);
-  private _meta = inject(Meta); // 🔥 NUEVO
-  private _title = inject(Title); // 🔥 NUEVO
+  private _seo = inject(SeoService);
 
   // Signals para el estado reactivo
   post = signal<IPost | null>(null);
@@ -118,13 +117,7 @@ export class Posts {
       if (currentQueryParams && currentQueryParams['role']) {
         this.backUrl.set(`/categories/${currentQueryParams['role']}`);
       } else if (this._navigationState.selectedRole()) {
-        // Mapear roles de API a URLs
-        const roleUrlMap: { [key: string]: string } = {
-          Alumnos: 'alumnos',
-          Profesores: 'profesores',
-          Administración: 'administracion',
-        };
-        const urlRole = roleUrlMap[this._navigationState.selectedRole()!];
+        const urlRole = apiToUrlRole(this._navigationState.selectedRole()!);
         if (urlRole) {
           this.backUrl.set(`/categories/${urlRole}`);
         }
@@ -164,42 +157,11 @@ export class Posts {
 
   // 🔥 NUEVO: Método para actualizar meta tags
   private updateMetaTags(post: IPost): void {
-    const canonicalUrl = `${environment.appUrl}/posts/${post.id}`;
-
-    this._title.setTitle(`${post.title} | Ayuda de Redif`);
-
-    // Meta tags básicos
-    this._meta.updateTag({
-      name: 'description',
-      content: post.content.substring(0, 160) + '...',
-    });
-
-    // Open Graph tags (para compartir en redes sociales)
-    this._meta.updateTag({ property: 'og:title', content: post.title });
-    this._meta.updateTag({
-      property: 'og:description',
-      content: post.content.substring(0, 160) + '...',
-    });
-    this._meta.updateTag({ property: 'og:type', content: 'article' });
-    this._meta.updateTag({ property: 'og:url', content: canonicalUrl }); // 🔥 URL canónica
-    this._meta.updateTag({
-      property: 'og:image',
-      content: `${environment.appUrl}/images/redif_ar_logo.jpeg`,
-    });
-
-    // Twitter Card tags
-    this._meta.updateTag({
-      name: 'twitter:card',
-      content: 'summary_large_image',
-    });
-    this._meta.updateTag({ name: 'twitter:title', content: post.title });
-    this._meta.updateTag({
-      name: 'twitter:description',
-      content: post.content.substring(0, 160) + '...',
-    });
-    this._meta.updateTag({
-      name: 'twitter:image',
-      content: `${environment.appUrl}/images/redif_ar_logo.jpeg`,
+    this._seo.updateMetaTags({
+      title: `${post.title} | Ayuda de Redif`,
+      description: this._seo.generateDescription(post.content),
+      url: `/posts/${post.id}`,
+      type: 'article',
     });
   }
 

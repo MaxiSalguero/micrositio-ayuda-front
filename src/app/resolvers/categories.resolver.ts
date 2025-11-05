@@ -6,6 +6,7 @@ import { Category } from '../models/post.model';
 import { ITaxonomy } from '../models/taxonomy.model';
 import { of, tap, catchError, switchMap, map } from 'rxjs';
 import { forkJoin } from 'rxjs';
+import { urlToApiRole, isValidRoleSlug } from '../constants/role-mappings';
 
 // Interface para el resultado del resolver
 export interface CategoriesResolverData {
@@ -25,21 +26,14 @@ export const categoriesResolver: ResolveFn<CategoriesResolverData | null> = (
 
   const role = route.params['role'];
 
-  // Mapear roles de URL a títulos de API
-  const roleMap: { [key: string]: string } = {
-    alumnos: 'Alumnos',
-    profesores: 'Profesores',
-    administracion: 'Administración',
-  };
-
   // Validar que el role sea válido
-  if (!role || !roleMap[role]) {
+  if (!role || !isValidRoleSlug(role)) {
     console.error('❌ Role inválido:', role);
     router.navigate(['/home']);
     return of(null);
   }
 
-  const apiRole = roleMap[role];
+  const apiRole = urlToApiRole(role)!;
   const key = CATEGORIES_KEY(role);
 
   // 1. Intentar obtener datos del Transfer State

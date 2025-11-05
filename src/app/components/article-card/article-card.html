@@ -1,0 +1,13 @@
+<mat-card class="article-card" (click)="onCardClick()">
+  <mat-card-header>
+    <mat-card-title>{{ title }}</mat-card-title>
+    @if (category) {
+      <mat-chip class="category-chip">{{ category }}</mat-chip>
+    }
+  </mat-card-header>
+  @if (excerpt) {
+    <mat-card-content>
+      <p class="excerpt">{{ excerpt }}</p>
+    </mat-card-content>
+  }
+</mat-card>

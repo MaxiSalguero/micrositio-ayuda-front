@@ -1,0 +1,32 @@
+.article-card {
+  cursor: pointer;
+  transition: all 0.2s ease;
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  }
+
+  mat-card-header {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  mat-card-title {
+    font-size: 1.125rem;
+    font-weight: 500;
+    margin: 0;
+  }
+
+  .category-chip {
+    align-self: flex-start;
+    font-size: 0.75rem;
+  }
+
+  .excerpt {
+    margin: 0;
+    color: var(--text-secondary, #666);
+    line-height: 1.5;
+  }
+}

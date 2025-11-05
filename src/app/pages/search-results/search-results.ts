@@ -16,16 +16,19 @@ import { PipeMarkdownPipe } from '../../pipes/pipe-markdown-pipe';
 import { SupportBox } from '../../components/support-box/support-box';
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { Router } from '@angular/router';
 import { BackButton } from '../../components/back-button/back-button';
 import { isPlatformBrowser } from '@angular/common';
 import { SeoService } from '../../services/seo.service';
+import { firstValueFrom } from 'rxjs';
 
 @Component({
   selector: 'app-search',
   imports: [
     MatListModule,
     MatIconModule,
+    MatProgressBarModule,
     PipeMarkdownPipe,
     RouterLink,
     SupportBox,
@@ -49,7 +52,7 @@ export class SearchResults {
   count = computed(() => Number(this.qp()['count'] ?? 10));
 
   results = signal<IPost[]>([]);
-  loading = signal(false);
+  isSearching = signal(false);
 
   constructor() {
     effect(async () => {
@@ -61,9 +64,9 @@ export class SearchResults {
         return;
       }
 
-      this.loading.set(true);
+      this.isSearching.set(true);
       try {
-        const data = await this.api.search(q, c).toPromise();
+        const data = await firstValueFrom(this.api.search(q, c));
         this.results.set(data ?? []);
 
         // Actualizar meta tags después de obtener resultados
@@ -71,7 +74,7 @@ export class SearchResults {
       } catch (err) {
         console.error('Error loading articles:', err);
       } finally {
-        this.loading.set(false);
+        this.isSearching.set(false);
       }
     });
   }

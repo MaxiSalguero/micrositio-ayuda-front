@@ -1,4 +1,7 @@
 <div class="list-container">
+  @if (isSearching()) {
+    <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+  }
   @if(results() && results().length > 0){
   <mat-list>
     <app-back-button routerLink="/home" />

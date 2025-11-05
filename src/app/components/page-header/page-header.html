@@ -1,0 +1,8 @@
+<div class="page-header">
+  @if (showBackButton) {
+    <app-back-button [customUrl]="backUrl"></app-back-button>
+  }
+  @if (title) {
+    <h1 class="page-title">{{ title }}</h1>
+  }
+</div>

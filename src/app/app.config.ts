@@ -18,19 +18,22 @@ import {
   HttpClient,
   provideHttpClient,
   withFetch,
-  withInterceptorsFromDi,
+  withInterceptors,
 } from '@angular/common/http';
 import { provideMarkdown } from 'ngx-markdown';
 import { MatIconRegistry } from '@angular/material/icon';
 import { DomSanitizer } from '@angular/platform-browser';
+import { errorInterceptor } from './interceptors/error.interceptor';
+import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 export const appConfig: ApplicationConfig = {
   providers: [
     provideBrowserGlobalErrorListeners(),
     provideZoneChangeDetection({ eventCoalescing: true }),
+    provideAnimationsAsync(),
     // Configura HttpClient usando las funciones de proveedor recomendadas
     provideHttpClient(
       withFetch(), // Habilita el uso de la API fetch para un mejor rendimiento en SSR
-      withInterceptorsFromDi() // Permite que los interceptores definidos con el token HTTP_INTERCEPTORS sigan funcionando
+      withInterceptors([errorInterceptor]) // Interceptor global de errores
     ),
     provideMarkdown(),
     provideRouter(routes),

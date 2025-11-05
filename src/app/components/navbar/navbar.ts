@@ -6,7 +6,6 @@ import { MatListModule } from '@angular/material/list';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatDividerModule } from '@angular/material/divider';
-import { Footer } from '../footer/footer';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatRadioModule } from '@angular/material/radio';
 import { ThemeService } from '../../services/theme.service';
@@ -25,7 +24,6 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
     MatListModule,
     MatDividerModule,
     MatSlideToggleModule,
-    Footer,
   ],
   templateUrl: './navbar.html',
   styleUrl: './navbar.scss',

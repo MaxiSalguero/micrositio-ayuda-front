@@ -1,5 +1,5 @@
 import { Component, Input, ChangeDetectionStrategy } from '@angular/core';
-import { BackButton } from '../back-button/back-button';
+import { BackButton } from '../../../components/back-button/back-button';
 
 /**
  * Componente reutilizable para encabezado de página con botón de retroceso y título

@@ -1,5 +1,5 @@
 import { Injectable, signal } from '@angular/core';
-import { Category } from '../models/post.model';
+import { Category } from '../shared';
 
 export interface NavigationState {
   selectedRole: string | null;

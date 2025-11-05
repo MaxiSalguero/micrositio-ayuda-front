@@ -9,7 +9,6 @@ import {
 import { ActivatedRoute, RouterModule, Router } from '@angular/router';
 import { ApiService } from '../../services/api-service';
 import { NavigationStateService } from '../../services/navigation-state.service';
-import { IPost } from '../../models/post.model';
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
@@ -17,16 +16,20 @@ import { MatListModule } from '@angular/material/list';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatDividerModule } from '@angular/material/divider';
-import { IRelated, Post } from '../../models/related.model';
 import { MarkdownComponent } from 'ngx-markdown';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { SupportBox } from '../../components/support-box/support-box';
-import { LoadingState } from '../../components/loading-state/loading-state';
-import { EmptyState } from '../../components/empty-state/empty-state';
-import { PageHeader } from '../../components/page-header/page-header';
 import { isPlatformBrowser } from '@angular/common';
-import { apiToUrlRole } from '../../constants/role-mappings';
 import { SeoService } from '../../services/seo.service';
+import {
+  IPost,
+  IRelated,
+  Post,
+  LoadingState,
+  EmptyState,
+  PageHeader,
+  apiToUrlRole,
+} from '../../shared';
 
 @Component({
   selector: 'app-posts',

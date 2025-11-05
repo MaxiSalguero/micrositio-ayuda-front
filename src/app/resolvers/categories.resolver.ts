@@ -2,11 +2,9 @@ import { inject } from '@angular/core';
 import { ResolveFn, Router } from '@angular/router';
 import { TransferState, makeStateKey } from '@angular/core';
 import { ApiService } from '../services/api-service';
-import { Category } from '../models/post.model';
-import { ITaxonomy } from '../models/taxonomy.model';
 import { of, tap, catchError, switchMap, map } from 'rxjs';
 import { forkJoin } from 'rxjs';
-import { urlToApiRole, isValidRoleSlug } from '../constants/role-mappings';
+import { Category, ITaxonomy, urlToApiRole, isValidRoleSlug } from '../shared';
 
 // Interface para el resultado del resolver
 export interface CategoriesResolverData {

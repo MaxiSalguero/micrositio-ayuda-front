@@ -9,19 +9,22 @@ import {
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { ApiService } from '../../services/api-service';
 import { NavigationStateService } from '../../services/navigation-state.service';
-import { Category } from '../../models/post.model';
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
 import { MatExpansionModule, MatAccordion } from '@angular/material/expansion';
 import { MatIconModule } from '@angular/material/icon';
 import { SupportBox } from '../../components/support-box/support-box';
-import { LoadingState } from '../../components/loading-state/loading-state';
-import { EmptyState } from '../../components/empty-state/empty-state';
-import { PageHeader } from '../../components/page-header/page-header';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { CategoriesResolverData } from '../../resolvers/categories.resolver';
-import { urlToApiRole, apiToUrlRole } from '../../constants/role-mappings';
 import { SeoService } from '../../services/seo.service';
+import {
+  Category,
+  LoadingState,
+  EmptyState,
+  PageHeader,
+  urlToApiRole,
+  apiToUrlRole,
+} from '../../shared';
 
 @Component({
   selector: 'app-categories',

@@ -1,8 +1,7 @@
+@use '../../../../styles/mixins' as mixins;
+
 .page-header {
-  display: flex;
-  align-items: center;
-  gap: 16px;
-  margin-bottom: 24px;
+  @include mixins.page-header;
 }
 
 .page-title {

@@ -1,0 +1,5 @@
+@use '../../../../styles/mixins' as mixins;
+
+.loading-content {
+  @include mixins.loading-state;
+}

@@ -4,8 +4,8 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { SupportBox } from '../../components/support-box/support-box';
 import { SearchBar } from '../../components/search-bar/search-bar';
-import { apiToUrlRole } from '../../constants/role-mappings';
 import { SeoService } from '../../services/seo.service';
+import { apiToUrlRole } from '../../shared';
 
 @Component({
   selector: 'app-home',

@@ -2,8 +2,8 @@ import { inject } from '@angular/core';
 import { ResolveFn } from '@angular/router';
 import { TransferState, makeStateKey } from '@angular/core';
 import { ApiService } from '../services/api-service';
-import { IPost } from '../models/post.model';
 import { of, tap, catchError } from 'rxjs';
+import { IPost } from '../shared';
 
 // Clave única para cada post en el Transfer State
 const POST_KEY = (id: number) => makeStateKey<IPost>(`post-${id}`);

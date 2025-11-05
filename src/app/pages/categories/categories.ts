@@ -14,9 +14,10 @@ import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
 import { MatExpansionModule, MatAccordion } from '@angular/material/expansion';
 import { MatIconModule } from '@angular/material/icon';
-import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { SupportBox } from '../../components/support-box/support-box';
-import { BackButton } from '../../components/back-button/back-button';
+import { LoadingState } from '../../components/loading-state/loading-state';
+import { EmptyState } from '../../components/empty-state/empty-state';
+import { PageHeader } from '../../components/page-header/page-header';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { CategoriesResolverData } from '../../resolvers/categories.resolver';
 import { urlToApiRole, apiToUrlRole } from '../../constants/role-mappings';
@@ -29,10 +30,11 @@ import { SeoService } from '../../services/seo.service';
     MatButtonModule,
     MatExpansionModule,
     MatIconModule,
-    MatProgressSpinnerModule, // 🔥 NUEVO
     RouterLink,
     SupportBox,
-    BackButton,
+    LoadingState,
+    EmptyState,
+    PageHeader,
   ],
   templateUrl: './categories.html',
   styleUrls: ['./categories.scss'],

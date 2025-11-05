@@ -1,6 +1,7 @@
 @use "@angular/material" as mat;
 @use "./app/styles/theme-colors" as redif-theme-colors;
 @use './app/styles/typography';
+@use './styles/mixins' as mixins;
 
 html {
   color-scheme: light dark;

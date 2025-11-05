@@ -21,9 +21,10 @@ import { IRelated, Post } from '../../models/related.model';
 import { MarkdownComponent } from 'ngx-markdown';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { SupportBox } from '../../components/support-box/support-box';
-import { BackButton } from '../../components/back-button/back-button';
+import { LoadingState } from '../../components/loading-state/loading-state';
+import { EmptyState } from '../../components/empty-state/empty-state';
+import { PageHeader } from '../../components/page-header/page-header';
 import { isPlatformBrowser } from '@angular/common';
-import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { apiToUrlRole } from '../../constants/role-mappings';
 import { SeoService } from '../../services/seo.service';
 
@@ -40,8 +41,9 @@ import { SeoService } from '../../services/seo.service';
     RouterModule,
     MarkdownComponent,
     SupportBox,
-    BackButton,
-    MatProgressSpinnerModule,
+    LoadingState,
+    EmptyState,
+    PageHeader,
   ],
   templateUrl: './posts.html',
   styleUrl: './posts.scss',

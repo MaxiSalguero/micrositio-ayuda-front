@@ -1,0 +1,71 @@
+/**
+ * Mixins SCSS reutilizables para el proyecto
+ */
+
+/**
+ * Contenedor centrado con flex
+ */
+@mixin centered-content {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+}
+
+/**
+ * Header de página con back button
+ */
+@mixin page-header {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+/**
+ * Estado vacío centrado
+ */
+@mixin empty-state {
+  text-align: center;
+  padding: 3rem 2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+}
+
+/**
+ * Contenedor con ancho máximo centrado
+ */
+@mixin container-max-width($max-width: 720px) {
+  max-width: $max-width;
+  margin: 0 auto;
+  padding: 0 1rem;
+}
+
+/**
+ * Efecto hover para tarjetas
+ */
+@mixin card-hover {
+  cursor: pointer;
+  transition: all 0.2s ease;
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  }
+}
+
+/**
+ * Loading state con spinner
+ */
+@mixin loading-state {
+  @include centered-content;
+  padding: 2rem;
+
+  p {
+    margin: 0;
+    font-size: 1rem;
+    color: var(--text-secondary, #666);
+  }
+}

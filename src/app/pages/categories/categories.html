@@ -1,19 +1,11 @@
 <div class="categories-container">
-  <section class="header-page">
-    <app-back-button routerLink="/home" />
-
-    <h2 class="mat-headline-large">Temas de ayuda para {{getRoleName()}}</h2>
-  </section>
+  <app-page-header
+    [title]="'Temas de ayuda para ' + getRoleName()"
+    [backUrl]="'/home'">
+  </app-page-header>
 
   @if (isLoading()) {
-  <section class="loading-section">
-    <mat-card>
-      <mat-card-content class="loading-content">
-        <mat-spinner diameter="50"></mat-spinner>
-        <p>Cargando categorías...</p>
-      </mat-card-content>
-    </mat-card>
-  </section>
+    <app-loading-state message="Cargando categorías..."></app-loading-state>
   } @else if (categories().length > 0) {
   <section class="categories-section">
     <p class="mat-body-medium">Explora los temas de ayuda</p>
@@ -42,19 +34,12 @@
     </mat-accordion>
   </section>
   } @else {
-  <section class="empty-section">
-    <mat-card>
-      <mat-card-content class="empty-state-content">
-        <mat-icon class="error-icon">folder_open</mat-icon>
-        <h2>No hay categorías disponibles</h2>
-        <p>No se encontraron categorías para {{getRoleName()}}</p>
-        <button mat-raised-button color="primary" routerLink="/home">
-          <mat-icon>home</mat-icon>
-          Volver al inicio
-        </button>
-      </mat-card-content>
-    </mat-card>
-  </section>
+    <app-empty-state
+      icon="folder_open"
+      title="No hay categorías disponibles"
+      [message]="'No se encontraron categorías para ' + getRoleName()"
+      [action]="{label: 'Volver al inicio', route: '/home'}">
+    </app-empty-state>
   }
 </div>
 

@@ -1,27 +1,18 @@
 <div class="container">
-  <section class="header-section">
-    <app-back-button (click)="goBack()" />
-
-    <h2 class="mat-headline-large">Volver atrás</h2>
-  </section>
+  <app-page-header
+    title="Volver atrás"
+    [backUrl]="backUrl()">
+  </app-page-header>
 
   @if (isLoading()) {
-  <mat-card>
-    <mat-card-content class="loading-content">
-      <mat-spinner diameter="50"></mat-spinner>
-      <p>Cargando artículo...</p>
-    </mat-card-content>
-  </mat-card>
-  } @if (!isLoading() && !post()) {
-  <mat-card>
-    <mat-card-content class="empty-state-content">
-      <mat-icon>error_outline</mat-icon>
-      <p>Artículo no encontrado</p>
-      <button mat-raised-button color="primary" routerLink="/">
-        Volver al inicio
-      </button>
-    </mat-card-content>
-  </mat-card>
+    <app-loading-state message="Cargando artículo..."></app-loading-state>
+  } @else if (!post()) {
+    <app-empty-state
+      icon="error_outline"
+      title="Artículo no encontrado"
+      message="No pudimos cargar el artículo solicitado"
+      [action]="{label: 'Volver al inicio', route: '/'}">
+    </app-empty-state>
   } @if (!isLoading() && post()) {
   <mat-card>
     <mat-card-header>

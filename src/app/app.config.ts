@@ -14,16 +14,10 @@ import {
   withEventReplay,
 } from '@angular/platform-browser';
 import { provideServiceWorker } from '@angular/service-worker';
-import {
-  HttpClient,
-  provideHttpClient,
-  withFetch,
-  withInterceptors,
-} from '@angular/common/http';
+import { HttpClient, provideHttpClient, withFetch } from '@angular/common/http';
 import { provideMarkdown } from 'ngx-markdown';
 import { MatIconRegistry } from '@angular/material/icon';
 import { DomSanitizer } from '@angular/platform-browser';
-import { errorInterceptor } from './interceptors/error.interceptor';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -32,8 +26,7 @@ export const appConfig: ApplicationConfig = {
     provideAnimationsAsync(),
     // Configura HttpClient usando las funciones de proveedor recomendadas
     provideHttpClient(
-      withFetch(), // Habilita el uso de la API fetch para un mejor rendimiento en SSR
-      withInterceptors([errorInterceptor]) // Interceptor global de errores
+      withFetch() // Habilita el uso de la API fetch para un mejor rendimiento en SSR
     ),
     provideMarkdown(),
     provideRouter(routes),

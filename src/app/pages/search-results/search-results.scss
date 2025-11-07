@@ -10,10 +10,6 @@ mat-list {
   margin-bottom: 1rem;
 }
 
-.mat-title-large {
-  text-align: center;
-}
-
 .list-icon {
   color: var(--mat-sys-primary);
   transition: color 120ms ease;
@@ -37,22 +33,6 @@ a[role="link"]:hover .list-icon {
 a[role="link"] {
   margin-bottom: 0.5rem;
   cursor: pointer;
-}
-
-.custom-card {
-  background-color: var(--mat-sys-surface);
-  box-shadow: none;
-  text-align: center;
-
-  mat-card-content {
-    p {
-      margin-bottom: 1rem;
-    }
-  }
-
-  .card-actions {
-    justify-content: center;
-  }
 }
 
 @media screen and (max-width: 480px) {

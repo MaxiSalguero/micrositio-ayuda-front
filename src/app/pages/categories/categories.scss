@@ -4,18 +4,6 @@
   padding-top: 1rem;
 }
 
-.header-page {
-  display: flex;
-  align-items: center;
-  gap: 16px;
-  margin-bottom: 32px;
-
-  h2 {
-    margin: 0;
-    flex: 1;
-  }
-}
-
 .categories-section {
   margin-bottom: 32px;
 
@@ -23,18 +11,6 @@
     margin-bottom: 16px;
     color: var(--mat-sys-on-surface-variant);
   }
-}
-
-.loading-content {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 1rem;
-}
-
-.empty-state-content {
-  text-align: center;
-  padding: 40px;
 }
 
 .custom-accordion {
@@ -66,9 +42,4 @@
     font-style: italic;
     text-align: center;
   }
-}
-
-.loading-section,
-.empty-section {
-  margin: 32px 0;
 }

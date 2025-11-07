@@ -5,7 +5,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { SupportBox } from '../../components/support-box/support-box';
 import { SearchBar } from '../../components/search-bar/search-bar';
 import { SeoService } from '../../services/seo.service';
-import { apiToUrlRole } from '../../shared';
+import { apiToUrlRole, PageHeader } from '../../shared';
 
 @Component({
   selector: 'app-home',
@@ -14,6 +14,7 @@ import { apiToUrlRole } from '../../shared';
     MatButtonModule,
     SupportBox,
     SearchBar,
+    PageHeader,
   ],
   templateUrl: './home.html',
   styleUrl: './home.scss',

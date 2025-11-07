@@ -1,10 +1,3 @@
-.header-page {
-  width: 100%;
-  max-width: 500px;
-  margin: 0 auto;
-  text-align: center;
-}
-
 .category-section {
   max-width: 720px;
   text-align: center;
@@ -23,48 +16,3 @@
   }
 }
 
-@media screen and (max-width: 900px) {
-  .header-page {
-    mat-form-field {
-      .mat-mdc-form-field-label,
-      .mdc-floating-label,
-      .mat-form-field-label {
-        font-size: 28px !important;
-      }
-    }
-  }
-}
-
-@media screen and (max-width: 768px) {
-  .header-page {
-    mat-form-field {
-      width: 95%;
-
-      .mat-mdc-form-field-label,
-      .mdc-floating-label,
-      .mat-form-field-label {
-        font-size: 24px !important;
-      }
-    }
-  }
-}
-
-@media screen and (max-width: 480px) {
-  .header-page {
-    h2.mat-headline-large {
-      font-size: 1.5rem !important;
-    }
-
-    mat-form-field {
-      .mat-mdc-form-field-label,
-      .mdc-floating-label,
-      .mat-form-field-label {
-        font-size: 20px !important;
-      }
-
-      input.mat-mdc-input-element {
-        font-size: 18px !important;
-      }
-    }
-  }
-}

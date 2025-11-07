@@ -11,11 +11,9 @@ import { ApiService } from '../../services/api-service';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { MatIconModule } from '@angular/material/icon';
-import { IPost, PipeMarkdownPipe } from '../../shared';
+import { IPost, PipeMarkdownPipe, LoadingState, EmptyState } from '../../shared';
 import { SupportBox } from '../../components/support-box/support-box';
-import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
-import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { Router } from '@angular/router';
 import { BackButton } from '../../components/back-button/back-button';
 import { isPlatformBrowser } from '@angular/common';
@@ -27,13 +25,13 @@ import { firstValueFrom } from 'rxjs';
   imports: [
     MatListModule,
     MatIconModule,
-    MatProgressBarModule,
     PipeMarkdownPipe,
     RouterLink,
     SupportBox,
-    MatCardModule,
     MatButtonModule,
     BackButton,
+    LoadingState,
+    EmptyState,
   ],
   templateUrl: './search-results.html',
   styleUrl: './search-results.scss',

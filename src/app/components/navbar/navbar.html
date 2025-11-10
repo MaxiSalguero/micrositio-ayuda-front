@@ -50,15 +50,65 @@
     </mat-sidenav>
 
     <mat-sidenav-content>
+      <!-- Backdrop para cerrar el search overlay al hacer clic fuera -->
+      @if (isSearchOpen() && !isHomePage()) {
+        <div class="navbar-backdrop" (click)="toggleMobileSearch()"></div>
+      }
+
       <mat-toolbar color="primary" class="navbar-toolbar">
-        <button matIconButton (click)="snav.toggle()">
-          <mat-icon>menu</mat-icon>
-        </button>
-        <span class="navbar-title"
-          ><a href="/home" class="footer__link">Ayuda de Redif</a></span
-        >
-        <span class="mat-spacer"></span>
-        <span class="navbar-brand"><mat-icon svgIcon="redif"></mat-icon></span>
+        <!-- Cuando search NO está abierto -->
+        @if (!isSearchOpen()) {
+          <!-- Menú hamburguesa -->
+          <button matIconButton (click)="snav.toggle()">
+            <mat-icon>menu</mat-icon>
+          </button>
+
+          <!-- Para Home: Spacer antes del título para centrarlo en mobile -->
+          @if (isHomePage()) {
+            <span class="mat-spacer navbar-spacer--home-left"></span>
+          }
+
+          <!-- Título -->
+          <span class="navbar-title">
+            <a href="/home" class="footer__link">Ayuda de Redif</a>
+          </span>
+
+          <!-- Para Home: Logo Redif a la derecha con spacer -->
+          @if (isHomePage()) {
+            <span class="mat-spacer"></span>
+            <span class="navbar-brand navbar-brand--mobile-right">
+              <mat-icon svgIcon="redif"></mat-icon>
+            </span>
+          }
+
+          <!-- Para No-Home -->
+          @if (!isHomePage()) {
+            <!-- Desktop: logo + search bar -->
+            <span class="navbar-brand navbar-brand--desktop">
+              <mat-icon svgIcon="redif"></mat-icon>
+            </span>
+            <app-search-bar class="navbar-search" />
+
+            <!-- Mobile: spacer + icono de lupa -->
+            <span class="mat-spacer"></span>
+            <button
+              mat-icon-button
+              class="navbar-search-mobile-icon"
+              (click)="toggleMobileSearch()"
+              aria-label="Buscar">
+              <mat-icon>search</mat-icon>
+            </button>
+          }
+        }
+
+        <!-- Cuando search SÍ está abierto (solo mobile, solo no-home) -->
+        @if (isSearchOpen() && !isHomePage()) {
+          <app-search-bar
+            class="navbar-search-overlay"
+            [mobileOverlay]="true"
+            (close)="toggleMobileSearch()"
+            #searchBarRef />
+        }
       </mat-toolbar>
 
       <main class="main-content">

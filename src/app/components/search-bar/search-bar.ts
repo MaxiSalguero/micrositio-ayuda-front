@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, Input, Output, EventEmitter } from '@angular/core';
 import {
   FormBuilder,
   FormGroup,
@@ -27,6 +27,9 @@ import { MatButtonModule } from '@angular/material/button';
 export class SearchBar {
   private _router = inject(Router);
 
+  @Input() mobileOverlay: boolean = false;
+  @Output() close = new EventEmitter<void>();
+
   formularioBusqueda: FormGroup;
 
   constructor(private fb: FormBuilder) {
@@ -42,5 +45,9 @@ export class SearchBar {
         queryParams: { q: query, count: 5 },
       });
     }
+  }
+
+  onClose() {
+    this.close.emit();
   }
 }

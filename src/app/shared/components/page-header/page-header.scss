@@ -2,11 +2,15 @@
 
 .page-header {
   @include mixins.page-header;
+
+  &--compact {
+    padding-top: 1rem;
+    margin-bottom: 0;
+  }
 }
 
-.page-title {
+.mat-headline-large{
   margin: 0;
   font-size: 1.75rem;
-  font-weight: 500;
-  color: var(--text-primary, #333);
+  line-height: 2rem;
 }

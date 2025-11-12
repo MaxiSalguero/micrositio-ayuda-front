@@ -20,11 +20,60 @@
     height: 2rem;
     margin-bottom: 3px;
   }
+
+  &--desktop {
+    // Visible en desktop, oculto en mobile
+    display: inline-flex;
+  }
+
+  &--mobile-right {
+    // Visible tanto en desktop como mobile (para Home)
+    display: inline-flex;
+  }
 }
 
 .navbar-title {
   font-weight: 400;
   font-size: 1.2rem;
+}
+
+.navbar-spacer--home-left {
+  // En desktop: oculto (título alineado a la izquierda)
+  display: none;
+}
+
+.navbar-search {
+  flex-grow: 1;
+  max-width: 600px;
+  margin: 0 2rem;
+
+  ::ng-deep mat-form-field {
+    width: 100%;
+
+    .mat-mdc-text-field-wrapper {
+       height: 3rem;
+       display: flex;
+       align-items: center;
+    }
+
+    .mat-mdc-form-field-label,
+    .mdc-floating-label {
+        top: 50% !important;
+    }
+  }
+}
+
+.navbar-search-mobile-icon {
+  display: none;
+}
+
+.navbar-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 999;
 }
 
 .footer__link {
@@ -133,6 +182,58 @@
   .mat-spacer {
     display: block;
     flex: 1 1 auto;
+  }
+
+  // Ocultar search desktop
+  .navbar-search {
+    display: none !important;
+  }
+
+  // Mostrar icono de lupa en mobile (No-Home)
+  .navbar-search-mobile-icon {
+    display: inline-flex !important;
+  }
+
+  // Ocultar logo desktop en mobile (No-Home)
+  .navbar-brand--desktop {
+    display: none !important;
+  }
+
+  // Mostrar logo en mobile (Home)
+  .navbar-brand--mobile-right {
+    display: inline-flex !important;
+  }
+
+  // Mostrar spacer izquierdo en mobile (Home) para centrar título
+  .navbar-spacer--home-left {
+    display: block !important;
+    flex: 1 1 auto;
+  }
+
+  // Search overlay en mobile - ocupa el 80% del ancho
+  .navbar-search-overlay {
+    width: 100%;
+    display: flex !important;
+
+    ::ng-deep form {
+      width: 100%;
+    }
+
+    ::ng-deep mat-form-field {
+      font-size: 14px;
+      --mdc-outlined-text-field-container-height: 3rem;
+
+      .mat-mdc-text-field-wrapper {
+        height: 3rem;
+        display: flex;
+        align-items: center;
+      }
+
+      .mat-mdc-form-field-label,
+      .mdc-floating-label {
+        top: 50% !important;
+      }
+    }
   }
 }
 

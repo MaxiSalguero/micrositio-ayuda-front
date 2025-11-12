@@ -1,8 +1,8 @@
-<div class="page-header">
+<div class="page-header" [class.page-header--compact]="compact">
   @if (showBackButton) {
     <app-back-button [customUrl]="backUrl"></app-back-button>
   }
   @if (title) {
-    <h1 class="page-title">{{ title }}</h1>
+    <h1 class="mat-headline-large">{{ title }}</h1>
   }
 </div>

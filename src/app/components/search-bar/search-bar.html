@@ -1,5 +1,5 @@
 <form [formGroup]="formularioBusqueda" (ngSubmit)="send()">
-  <mat-form-field appearance="outline">
+  <mat-form-field appearance="outline" subscriptSizing="dynamic">
     <mat-label>Buscar</mat-label>
     <input
       matInput
@@ -7,9 +7,15 @@
       name="busqueda"
       formControlName="busqueda"
     />
+    @if (mobileOverlay) {
+    <button matPrefix matIconButton aria-label="Cerrar" type="button" (click)="onClose()">
+      <mat-icon>arrow_back</mat-icon>
+    </button>
+    } @else {
     <button matPrefix matIconButton aria-label="Buscar" type="submit">
       <mat-icon>search</mat-icon>
     </button>
+    }
     @if (formularioBusqueda.value.busqueda) {
     <button type="reset" matSuffix matIconButton aria-label="Clear">
       <mat-icon>close</mat-icon>

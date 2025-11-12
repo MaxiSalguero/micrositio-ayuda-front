@@ -36,4 +36,10 @@ export class PageHeader {
    * Título de la página
    */
   @Input() title?: string;
+
+  /**
+   * Reduce el margin-bottom para un espaciado más compacto
+   * @default false
+   */
+  @Input() compact: boolean = false;
 }

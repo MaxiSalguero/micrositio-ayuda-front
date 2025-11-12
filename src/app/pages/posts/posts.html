@@ -1,7 +1,8 @@
 <div class="container">
   <app-page-header
-    title=""
-    [backUrl]="backUrl()">
+    [title]="post()?.title ?? ''"
+    [backUrl]="backUrl()"
+    [compact]="true">
   </app-page-header>
 
   @if (isLoading()) {
@@ -15,10 +16,6 @@
     </app-empty-state>
   } @if (!isLoading() && post()) {
   <mat-card>
-    <mat-card-header>
-      <mat-card-title class="post-title">{{post()?.title}}</mat-card-title>
-    </mat-card-header>
-
     <mat-card-content>
       <markdown>{{post()?.content}}</markdown>
     </mat-card-content>

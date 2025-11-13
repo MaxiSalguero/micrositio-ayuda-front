@@ -19,6 +19,7 @@ import { CategoriesResolverData } from '../../resolvers/categories.resolver';
 import { SeoService } from '../../services/seo.service';
 import {
   Category,
+  CategoryNode,
   LoadingState,
   EmptyState,
   PageHeader,
@@ -52,7 +53,7 @@ export class Categories {
 
   // Signals
   selectedRole = signal<string>('');
-  categories = signal<Category[]>([]);
+  categories = signal<CategoryNode[]>([]);  // Cambiado a CategoryNode
   isLoading = signal(false);
 
   // Signal reactivo para los parámetros de la ruta
@@ -64,11 +65,10 @@ export class Categories {
     // 🔥 NUEVO: Effect para obtener datos del resolver
     effect(() => {
       const resolvedData = this._route.snapshot.data[
-        'categoriesData'
+        'categories'  // Cambiado de 'categoriesData' a 'categories' para coincidir con app.routes.ts
       ] as CategoriesResolverData | null;
 
       if (resolvedData) {
-        console.log('✅ Categorías cargadas desde resolver (SSR)');
         this.selectedRole.set(this.getRoleFromApiRole(resolvedData.role));
         this.categories.set(resolvedData.categories);
         this.isLoading.set(false);
@@ -96,7 +96,7 @@ export class Categories {
       }
 
       // Solo cargar si NO hay datos del resolver
-      const resolvedData = this._route.snapshot.data['categoriesData'];
+      const resolvedData = this._route.snapshot.data['categories'];
       if (!resolvedData) {
         this.selectedRole.set(role);
         this.loadCategoriesForRole(role);

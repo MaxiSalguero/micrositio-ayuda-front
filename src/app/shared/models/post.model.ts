@@ -22,6 +22,12 @@ export interface Category {
     post:    Post[];
 }
 
+// Extensión de Category para soportar jerarquía de 3 niveles
+export interface CategoryNode extends Category {
+    subcategories?: CategoryNode[];  // Categorías nietas (hijas de esta categoría)
+    hasChildren?: boolean;            // Flag para saber si tiene sub-categorías
+}
+
 export interface Like {
     id:    number;
     value: boolean;

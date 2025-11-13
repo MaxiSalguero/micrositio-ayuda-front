@@ -4,12 +4,12 @@ import { TransferState, makeStateKey } from '@angular/core';
 import { ApiService } from '../services/api-service';
 import { of, tap, catchError, switchMap, map } from 'rxjs';
 import { forkJoin } from 'rxjs';
-import { Category, ITaxonomy, urlToApiRole, isValidRoleSlug } from '../shared';
+import { Category, CategoryNode, ITaxonomy, urlToApiRole, isValidRoleSlug } from '../shared';
 
 // Interface para el resultado del resolver
 export interface CategoriesResolverData {
   role: string;
-  categories: Category[];
+  categories: CategoryNode[];  // Ahora usa CategoryNode para soportar subcategories
 }
 
 const CATEGORIES_KEY = (role: string) =>
@@ -74,17 +74,64 @@ export const categoriesResolver: ResolveFn<CategoriesResolverData | null> = (
           );
 
           return forkJoin(requests).pipe(
-            map((categoriesWithPosts: Category[]) => {
-              const result: CategoriesResolverData = {
-                role: apiRole,
-                categories: categoriesWithPosts,
-              };
-              transferState.set(key, result);
-              console.log(
-                '✅ Categorías guardadas en Transfer State:',
-                categoriesWithPosts.length
+            switchMap((categoriesWithPosts: Category[]) => {
+              // Para cada categoría hija, buscar sus propias hijas (nietas)
+              const categoryNodesRequests = categoriesWithPosts.map((childCategory) => {
+                // Buscar nietas de esta categoría hija en la taxonomía
+                const grandchildren = items
+                  .filter((item) => item.parent?.id === childCategory.id)
+                  .map((item) => item.category)
+                  .filter(Boolean) as { id: number }[];
+
+                // Si no tiene nietas, retornar la categoría tal cual
+                if (grandchildren.length === 0) {
+                  const categoryNode: CategoryNode = {
+                    ...childCategory,
+                    subcategories: [],
+                    hasChildren: false,
+                  };
+                  return of(categoryNode);
+                }
+
+                // Si tiene nietas, hacer peticiones paralelas para obtenerlas
+                const grandchildrenRequests = grandchildren.map((grandchild) =>
+                  apiService.getCategoryById(grandchild.id)
+                );
+
+                return forkJoin(grandchildrenRequests).pipe(
+                  map((grandchildrenWithPosts: Category[]) => {
+                    // Convertir las nietas a CategoryNode
+                    const subcategories: CategoryNode[] = grandchildrenWithPosts.map(gc => ({
+                      ...gc,
+                      subcategories: [],
+                      hasChildren: false,
+                    }));
+
+                    const categoryNode: CategoryNode = {
+                      ...childCategory,
+                      subcategories,
+                      hasChildren: true,
+                    };
+                    return categoryNode;
+                  })
+                );
+              });
+
+              // Ejecutar todas las peticiones de nietas en paralelo
+              return forkJoin(categoryNodesRequests).pipe(
+                map((categoryNodes: CategoryNode[]) => {
+                  const result: CategoriesResolverData = {
+                    role: apiRole,
+                    categories: categoryNodes,
+                  };
+                  transferState.set(key, result);
+                  console.log(
+                    '✅ Categorías con subcategorías guardadas en Transfer State:',
+                    categoryNodes.length
+                  );
+                  return result;
+                })
               );
-              return result;
             })
           );
         })

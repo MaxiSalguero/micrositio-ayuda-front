@@ -16,18 +16,39 @@
           <mat-panel-title>{{category.title}}</mat-panel-title>
         </mat-expansion-panel-header>
 
-        @if (category.post.length) { @for (post of category.post; track post.id)
-        {
-        <button
-          matButton
-          class="full-width post-button"
-          [routerLink]="['/posts', post.id]"
-          [queryParams]="{role: selectedRole(), category: category.id}"
-        >
-          {{ post.title }}
-        </button>
-        } } @else {
-        <p class="no-posts">No hay artículos disponibles en esta categoría</p>
+        <!-- Sub-categorías (nietas) si existen -->
+        @if (category.subcategories && category.subcategories.length > 0) {
+          <div class="subcategories-section">
+            @for (subcategory of category.subcategories; track subcategory.id) {
+              <button
+                matButton
+                class="full-width subcategory-button"
+                [routerLink]="['/categories', selectedRole(), subcategory.id]"
+              >
+                <mat-icon>folder</mat-icon>
+                <span>{{ subcategory.title }}</span>
+              </button>
+            }
+          </div>
+        }
+
+        <!-- Posts de esta categoría -->
+        @if (category.post.length) {
+          <div class="posts-section">
+            @for (post of category.post; track post.id) {
+              <button
+                matButton
+                class="full-width post-button"
+                [routerLink]="['/posts', post.id]"
+                [queryParams]="{role: selectedRole(), category: category.id}"
+              >
+                <mat-icon>article</mat-icon>
+                <span>{{ post.title }}</span>
+              </button>
+            }
+          </div>
+        } @else if (!category.subcategories || category.subcategories.length === 0) {
+          <p class="no-posts">No hay artículos disponibles en esta categoría</p>
         }
       </mat-expansion-panel>
       }

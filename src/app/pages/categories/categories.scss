@@ -29,11 +29,36 @@
     }
   }
 
+  .subcategories-section {
+    padding: 0 1rem;
+
+    .subcategory-button {
+      width: 100%;
+      margin-bottom: 4px;
+      text-align: left;
+      justify-content: flex-start;
+      gap: 8px;
+
+      mat-icon {
+        color: var(--mat-sys-on-surface-variant);
+      }
+    }
+  }
+
+  .posts-section {
+    padding: 0 1rem;
+  }
+
   .post-button {
     width: 100%;
-    margin: 8px 0;
+    margin-bottom: 4px;
     text-align: left;
     justify-content: flex-start;
+    gap: 8px;
+
+    mat-icon {
+      color: var(--mat-sys-on-surface-variant);
+    }
   }
 
   .no-posts {

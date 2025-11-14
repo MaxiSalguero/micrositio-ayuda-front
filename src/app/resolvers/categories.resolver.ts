@@ -9,11 +9,14 @@ import { Category, CategoryNode, ITaxonomy, urlToApiRole, isValidRoleSlug } from
 // Interface para el resultado del resolver
 export interface CategoriesResolverData {
   role: string;
-  categories: CategoryNode[];  // Ahora usa CategoryNode para soportar subcategories
+  pageTitle: string;  // Título dinámico del header
+  categoryId?: number;  // ID de la categoría (si es una sub-categoría)
+  categories: CategoryNode[];  // Categorías hijas a mostrar en acordeón
+  directPosts?: any[];  // Posts directos cuando no hay sub-categorías (mostrar sin acordeón)
 }
 
-const CATEGORIES_KEY = (role: string) =>
-  makeStateKey<CategoriesResolverData>(`categories-${role}`);
+const CATEGORIES_KEY = (identifier: string) =>
+  makeStateKey<CategoriesResolverData>(`categories-${identifier}`);
 
 export const categoriesResolver: ResolveFn<CategoriesResolverData | null> = (
   route
@@ -23,6 +26,7 @@ export const categoriesResolver: ResolveFn<CategoriesResolverData | null> = (
   const router = inject(Router);
 
   const role = route.params['role'];
+  const categoryId = route.params['categoryId'];
 
   // Validar que el role sea válido
   if (!role || !isValidRoleSlug(role)) {
@@ -31,6 +35,23 @@ export const categoriesResolver: ResolveFn<CategoriesResolverData | null> = (
     return of(null);
   }
 
+  // Determinar si se carga por categoryId o por role
+  if (categoryId) {
+    // Caso: Carga de sub-categoría por ID
+    return loadCategoryById(categoryId, role, apiService, transferState, router);
+  } else {
+    // Caso: Carga de categorías principales por role
+    return loadCategoryByRole(role, apiService, transferState, router);
+  }
+};
+
+// Función auxiliar: Cargar categorías principales por role
+function loadCategoryByRole(
+  role: string,
+  apiService: ApiService,
+  transferState: TransferState,
+  router: Router
+) {
   const apiRole = urlToApiRole(role)!;
   const key = CATEGORIES_KEY(role);
 
@@ -57,14 +78,16 @@ export const categoriesResolver: ResolveFn<CategoriesResolverData | null> = (
             .map((item) => item.category)
             .filter(Boolean) as { id: number }[];
 
-          // Si no hay categorías hijas, retornar array vacío
+          // Si no hay categorías hijas, retornar posts directos
           if (children.length === 0) {
             const result: CategoriesResolverData = {
               role: apiRole,
+              pageTitle: `Temas de ayuda para ${apiRole}`,
               categories: [],
+              directPosts: parentCategory.post || [],
             };
             transferState.set(key, result);
-            console.log('✅ Categorías guardadas en Transfer State (vacío)');
+            console.log('✅ Categorías guardadas en Transfer State (con posts directos)');
             return of(result);
           }
 
@@ -122,12 +145,17 @@ export const categoriesResolver: ResolveFn<CategoriesResolverData | null> = (
                 map((categoryNodes: CategoryNode[]) => {
                   const result: CategoriesResolverData = {
                     role: apiRole,
+                    pageTitle: `Temas de ayuda para ${apiRole}`,
                     categories: categoryNodes,
+                    directPosts: parentCategory.post || [],
                   };
                   transferState.set(key, result);
                   console.log(
                     '✅ Categorías con subcategorías guardadas en Transfer State:',
-                    categoryNodes.length
+                    categoryNodes.length,
+                    'subcategorías,',
+                    (parentCategory.post || []).length,
+                    'posts directos'
                   );
                   return result;
                 })
@@ -143,4 +171,96 @@ export const categoriesResolver: ResolveFn<CategoriesResolverData | null> = (
       return of(null);
     })
   );
-};
+}
+
+// Función auxiliar: Cargar sub-categoría por ID
+function loadCategoryById(
+  categoryId: string,
+  role: string,
+  apiService: ApiService,
+  transferState: TransferState,
+  router: Router
+) {
+  const key = CATEGORIES_KEY(`${role}-${categoryId}`);
+
+  // 1. Intentar obtener datos del Transfer State
+  const cachedData = transferState.get(key, null);
+
+  if (cachedData) {
+    console.log('📦 Usando sub-categoría del Transfer State (SSR) - ID:', categoryId);
+    transferState.remove(key);
+    return of(cachedData);
+  }
+
+  // 2. Si no hay datos, hacer peticiones (servidor o primera carga)
+  console.log('🌐 Solicitando sub-categoría de la API - ID:', categoryId);
+
+  return apiService.getCategoryById(Number(categoryId)).pipe(
+    switchMap((subcategory) => {
+      // Obtener la taxonomía para ver si esta sub-categoría tiene hijas
+      return apiService.getTaxonomy().pipe(
+        switchMap((items: ITaxonomy[]) => {
+          // Filtrar las categorías nietas (hijas de esta sub-categoría)
+          const children = items
+            .filter((item) => item.parent?.id === subcategory.id)
+            .map((item) => item.category)
+            .filter(Boolean) as { id: number }[];
+
+          // Si no hay categorías nietas, retornar posts directos
+          if (children.length === 0) {
+            const result: CategoriesResolverData = {
+              role,
+              pageTitle: subcategory.title,
+              categoryId: subcategory.id,
+              categories: [],  // Sin sub-categorías
+              directPosts: subcategory.post || [],  // Posts directos
+            };
+
+            transferState.set(key, result);
+            console.log('✅ Sub-categoría guardada en Transfer State (posts directos)');
+            return of(result);
+          }
+
+          // Si hay nietas, hacer peticiones paralelas para obtenerlas
+          const requests = children.map((child) =>
+            apiService.getCategoryById(child.id)
+          );
+
+          return forkJoin(requests).pipe(
+            map((childrenWithPosts) => {
+              // Convertir las hijas a CategoryNode
+              const childCategories: CategoryNode[] = childrenWithPosts.map(child => ({
+                ...child,
+                subcategories: [],
+                hasChildren: false,
+              }));
+
+              const result: CategoriesResolverData = {
+                role,
+                pageTitle: subcategory.title,
+                categoryId: subcategory.id,
+                categories: childCategories,  // Subcategorías hijas
+                directPosts: subcategory.post || [],  // Posts propios de la categoría actual
+              };
+
+              transferState.set(key, result);
+              console.log(
+                '✅ Sub-categoría con hijas y posts guardada en Transfer State:',
+                childCategories.length,
+                'hijas,',
+                (subcategory.post || []).length,
+                'posts directos'
+              );
+              return result;
+            })
+          );
+        })
+      );
+    }),
+    catchError((error) => {
+      console.error('❌ Error al cargar sub-categoría:', error);
+      router.navigate(['/categories', role]);
+      return of(null);
+    })
+  );
+}

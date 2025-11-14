@@ -2,11 +2,9 @@ import { Routes } from '@angular/router';
 import { Home } from './pages/home/home';
 import { Posts } from './pages/posts/posts';
 import { Categories } from './pages/categories/categories';
-import { Subcategory } from './pages/subcategory/subcategory';
 import { SearchResults } from './pages/search-results/search-results';
 import { postResolver } from './resolvers/post.resolver';
 import { categoriesResolver } from './resolvers/categories.resolver';
-import { subcategoryResolver } from './resolvers/subcategory.resolver';
 
 export const routes: Routes = [
   { path: '', redirectTo: '/home', pathMatch: 'full' },
@@ -31,10 +29,10 @@ export const routes: Routes = [
     title: 'Search Results',
   },
   {
-    path: 'categories/:role/:subcategoryId',
-    component: Subcategory,
-    title: 'Sub-categoría',
-    resolve: { subcategory: subcategoryResolver },
+    path: 'categories/:role/:categoryId',
+    component: Categories,
+    title: 'Categoría',
+    resolve: { categories: categoriesResolver },
   },
   { path: '**', redirectTo: '', pathMatch: 'full' },
 ];

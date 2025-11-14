@@ -37,10 +37,27 @@
       margin-bottom: 4px;
       text-align: left;
       justify-content: flex-start;
-      gap: 8px;
+      align-items: center;
+      gap: 12px;
+      white-space: normal;
+      word-break: break-word;
+      min-height: 48px;
 
       mat-icon {
         color: var(--mat-sys-on-surface-variant);
+        flex-shrink: 0;
+      }
+
+      span {
+        flex: 1;
+        line-height: 1.4;
+      }
+
+      .post-count {
+        margin-left: 0.2rem;
+        font-size: 0.875rem;
+        color: var(--mat-sys-on-surface-variant);
+        flex-shrink: 0;
       }
     }
   }
@@ -54,10 +71,20 @@
     margin-bottom: 4px;
     text-align: left;
     justify-content: flex-start;
-    gap: 8px;
+    align-items: center;
+    gap: 12px;
+    white-space: normal;
+    word-break: break-word;
+    min-height: 48px;
 
     mat-icon {
       color: var(--mat-sys-on-surface-variant);
+      flex-shrink: 0;
+    }
+
+    span {
+      flex: 1;
+      line-height: 1.4;
     }
   }
 
@@ -66,5 +93,48 @@
     color: var(--mat-sys-on-surface-variant);
     font-style: italic;
     text-align: center;
+  }
+}
+
+// Sección de posts directos (sin acordeón)
+.direct-posts-section {
+  margin-bottom: 24px;
+
+  p {
+    margin-bottom: 16px;
+    color: var(--mat-sys-on-surface-variant);
+  }
+
+  .posts-list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+
+    mat-list{
+      padding: 0;
+    }
+
+    .post-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 16px;
+      border: 1px solid var(--mat-sys-outline-variant);
+      border-radius: 8px;
+      transition: all 0.3s;
+      white-space: normal;
+      word-break: break-word;
+
+      .arrow {
+        font-size: 20px;
+        width: 20px;
+        height: 20px;
+        flex-shrink: 0;
+      }
+
+      &:hover {
+        background: var(--mat-sys-surface-container);
+      }
+    }
   }
 }

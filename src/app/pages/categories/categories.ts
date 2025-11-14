@@ -26,10 +26,12 @@ import {
   urlToApiRole,
   apiToUrlRole,
 } from '../../shared';
+import { MatListModule } from '@angular/material/list';
 
 @Component({
   selector: 'app-categories',
   imports: [
+    MatListModule,
     MatCardModule,
     MatButtonModule,
     MatExpansionModule,
@@ -53,7 +55,10 @@ export class Categories {
 
   // Signals
   selectedRole = signal<string>('');
-  categories = signal<CategoryNode[]>([]);  // Cambiado a CategoryNode
+  pageTitle = signal<string>('');  // Título dinámico del header
+  categoryId = signal<number | undefined>(undefined);  // ID de categoría (si es sub-categoría)
+  categories = signal<CategoryNode[]>([]);  // Categorías hijas para mostrar en acordeón
+  directPosts = signal<any[]>([]);  // Posts directos sin acordeón
   isLoading = signal(false);
 
   // Signal reactivo para los parámetros de la ruta
@@ -70,7 +75,10 @@ export class Categories {
 
       if (resolvedData) {
         this.selectedRole.set(this.getRoleFromApiRole(resolvedData.role));
+        this.pageTitle.set(resolvedData.pageTitle);
+        this.categoryId.set(resolvedData.categoryId);
         this.categories.set(resolvedData.categories);
+        this.directPosts.set(resolvedData.directPosts || []);
         this.isLoading.set(false);
 
         // Actualizar estado global
@@ -80,7 +88,8 @@ export class Categories {
         });
 
         // Actualizar meta tags
-        this.updateMetaTags(resolvedData.role, resolvedData.categories.length);
+        const totalContent = resolvedData.categories.length + (resolvedData.directPosts?.length || 0);
+        this.updateMetaTags(resolvedData.pageTitle, totalContent);
       }
     });
 
@@ -178,12 +187,18 @@ export class Categories {
   }
 
   // 🔥 NUEVO: Método para actualizar meta tags
-  private updateMetaTags(role: string, categoriesCount: number): void {
-    const roleUrl = this.getRoleFromApiRole(role);
+  private updateMetaTags(pageTitle: string, categoriesCount: number): void {
+    const roleUrl = this.selectedRole();
+    const categoryId = this.categoryId();
+
+    const url = categoryId
+      ? `/categories/${roleUrl}/${categoryId}`
+      : `/categories/${roleUrl}`;
+
     this._seo.updateMetaTags({
-      title: `Ayuda para ${role} | Ayuda de Redif`,
-      description: `Explora ${categoriesCount} categorías de ayuda para ${role}. Encuentra respuestas a tus preguntas.`,
-      url: `/categories/${roleUrl}`,
+      title: `${pageTitle} | Ayuda de Redif`,
+      description: `Explora ${categoriesCount} categorías de ayuda. Encuentra respuestas a tus preguntas.`,
+      url,
     });
   }
 
@@ -195,5 +210,19 @@ export class Categories {
   getRoleName(): string {
     const current = this.selectedRole();
     return urlToApiRole(current) || current;
+  }
+
+  // Método para obtener la URL de retorno
+  getBackUrl(): string {
+    const categoryId = this.categoryId();
+    const role = this.selectedRole();
+
+    // Si estamos en una sub-categoría, volver a la vista de categorías del role
+    if (categoryId) {
+      return `/categories/${role}`;
+    }
+
+    // Si estamos en la vista principal, volver al home
+    return '/home';
   }
 }

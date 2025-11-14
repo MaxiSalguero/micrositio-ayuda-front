@@ -18,7 +18,7 @@ export const serverRoutes: ServerRoute[] = [
     renderMode: RenderMode.Client,
   },
   {
-    path: 'categories/:role/:subcategoryId',
+    path: 'categories/:role/:categoryId',
     renderMode: RenderMode.Server,
   },
   {

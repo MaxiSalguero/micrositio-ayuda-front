@@ -4,11 +4,9 @@ import {
   inject,
   signal,
   effect,
-  PLATFORM_ID,
 } from '@angular/core';
-import { ActivatedRoute, RouterModule, Router } from '@angular/router';
+import { ActivatedRoute, RouterModule } from '@angular/router';
 import { ApiService } from '../../services/api-service';
-import { NavigationStateService } from '../../services/navigation-state.service';
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
@@ -19,7 +17,6 @@ import { MatDividerModule } from '@angular/material/divider';
 import { MarkdownComponent } from 'ngx-markdown';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { SupportBox } from '../../components/support-box/support-box';
-import { isPlatformBrowser } from '@angular/common';
 import { SeoService } from '../../services/seo.service';
 import {
   IPost,
@@ -28,8 +25,8 @@ import {
   LoadingState,
   EmptyState,
   PageHeader,
-  apiToUrlRole,
 } from '../../shared';
+import { buildSlugId, extractIdFromSlug } from '../../shared/utils/slug.utils';
 
 @Component({
   selector: 'app-posts',
@@ -53,11 +50,8 @@ import {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class Posts {
-  private platformId = inject(PLATFORM_ID);
   private _route = inject(ActivatedRoute);
-  private _router = inject(Router);
   private _apiService = inject(ApiService);
-  private _navigationState = inject(NavigationStateService);
   private _seo = inject(SeoService);
 
   // Signals para el estado reactivo
@@ -65,11 +59,12 @@ export class Posts {
   related = signal<Post[]>([]);
   isLoading = signal(false);
   isLiked = signal(false);
-  backUrl = signal<string>('/home');
 
   // Signal reactivo para los parámetros de la ruta
   private params = toSignal(this._route.params);
-  private queryParams = toSignal(this._route.queryParams);
+
+  // Exponer buildSlugId para el template
+  buildSlugId = buildSlugId;
 
   constructor() {
     // 🔥 NUEVO: Effect para obtener datos del resolver
@@ -88,47 +83,13 @@ export class Posts {
     // Effect para manejar cambios en los parámetros de la ruta
     effect(() => {
       const currentParams = this.params();
-      const currentQueryParams = this.queryParams();
-      const isEmptyObject = (obj: any) =>
-        obj && typeof obj === 'object' && Object.keys(obj).length === 0;
-
       if (!currentParams) return;
 
-      // Manejo de backUrl desde localStorage
-      if (isEmptyObject(currentQueryParams)) {
-        if (isPlatformBrowser(this.platformId)) {
-          try {
-            const qp = localStorage.getItem('queryParams');
-            const parsedQp = qp ? JSON.parse(qp) : {};
-            const query = parsedQp.q || '';
-            const count = parsedQp.count || '';
+      const slugId = currentParams['slugId'];
+      const currentPostId = extractIdFromSlug(slugId);
+      if (!currentPostId) return;
 
-            const url = `/search?q=${encodeURIComponent(query)}&count=${count}`;
-            this.backUrl.set(url);
-          } catch (error) {
-            console.error(
-              'Error parsing queryParams from localStorage:',
-              error
-            );
-            this.backUrl.set('/home');
-          }
-        }
-      }
-
-      const currentPostId = Number(currentParams?.['postId']);
-      if (!currentPostId || isNaN(currentPostId)) return;
-
-      // Determinar la URL de regreso basada en query params
-      if (currentQueryParams && currentQueryParams['role']) {
-        this.backUrl.set(`/categories/${currentQueryParams['role']}`);
-      } else if (this._navigationState.selectedRole()) {
-        const urlRole = apiToUrlRole(this._navigationState.selectedRole()!);
-        if (urlRole) {
-          this.backUrl.set(`/categories/${urlRole}`);
-        }
-      }
-
-      // 🔥 CAMBIO: Solo cargar si NO hay datos del resolver
+      // Solo cargar si NO hay datos del resolver
       const currentPost = this.post();
       if (!currentPost || currentPost.id !== currentPostId) {
         this.isLoading.set(true);
@@ -137,7 +98,6 @@ export class Posts {
           next: (data: IPost) => {
             this.post.set(data);
             this.isLoading.set(false);
-            // 🔥 NUEVO: Actualizar meta tags
             this.updateMetaTags(data);
           },
           error: (err: any) => {
@@ -162,18 +122,13 @@ export class Posts {
 
   // 🔥 NUEVO: Método para actualizar meta tags
   private updateMetaTags(post: IPost): void {
+    const slugId = buildSlugId(post.slug, post.id);
     this._seo.updateMetaTags({
       title: `${post.title} | Ayuda de Redif`,
       description: this._seo.generateDescription(post.content),
-      url: `/posts/${post.id}`,
+      url: `/posts/${slugId}`,
       type: 'article',
     });
-  }
-
-  goBack(): void {
-    const url = this.backUrl();
-    console.log('Navigating back to:', url);
-    this._router.navigateByUrl(url);
   }
 
   handleLike(value: boolean) {

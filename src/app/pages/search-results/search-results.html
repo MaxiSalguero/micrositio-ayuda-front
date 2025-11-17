@@ -13,8 +13,7 @@
     <a
       mat-list-item
       role="link"
-      [routerLink]="['/posts', article.id]"
-      (click)="beforeNavigate()"
+      [routerLink]="['/posts', buildSlugId(article.slug, article.id)]"
     >
       <mat-icon class="list-icon" matListItemIcon>article</mat-icon>
       <div matListItemTitle class="list-title">{{article.title}}</div>

@@ -5,6 +5,7 @@ import { ApiService } from '../services/api-service';
 import { of, tap, catchError, switchMap, map } from 'rxjs';
 import { forkJoin } from 'rxjs';
 import { Category, CategoryNode, ITaxonomy, urlToApiRole, isValidRoleSlug } from '../shared';
+import { extractIdFromSlug } from '../shared/utils/slug.utils';
 
 // Interface para el resultado del resolver
 export interface CategoriesResolverData {
@@ -26,7 +27,7 @@ export const categoriesResolver: ResolveFn<CategoriesResolverData | null> = (
   const router = inject(Router);
 
   const role = route.params['role'];
-  const categoryId = route.params['categoryId'];
+  const slugId = route.params['slugId'];
 
   // Validar que el role sea válido
   if (!role || !isValidRoleSlug(role)) {
@@ -35,9 +36,15 @@ export const categoriesResolver: ResolveFn<CategoriesResolverData | null> = (
     return of(null);
   }
 
-  // Determinar si se carga por categoryId o por role
-  if (categoryId) {
-    // Caso: Carga de sub-categoría por ID
+  // Determinar si se carga por slugId o por role
+  if (slugId) {
+    // Caso: Carga de sub-categoría por ID (extraer ID del slug)
+    const categoryId = extractIdFromSlug(slugId);
+    if (!categoryId) {
+      console.error('❌ ID de categoría inválido en slugId:', slugId);
+      router.navigate(['/home']);
+      return of(null);
+    }
     return loadCategoryById(categoryId, role, apiService, transferState, router);
   } else {
     // Caso: Carga de categorías principales por role
@@ -175,7 +182,7 @@ function loadCategoryByRole(
 
 // Función auxiliar: Cargar sub-categoría por ID
 function loadCategoryById(
-  categoryId: string,
+  categoryId: number,
   role: string,
   apiService: ApiService,
   transferState: TransferState,
@@ -195,7 +202,7 @@ function loadCategoryById(
   // 2. Si no hay datos, hacer peticiones (servidor o primera carga)
   console.log('🌐 Solicitando sub-categoría de la API - ID:', categoryId);
 
-  return apiService.getCategoryById(Number(categoryId)).pipe(
+  return apiService.getCategoryById(categoryId).pipe(
     switchMap((subcategory) => {
       // Obtener la taxonomía para ver si esta sub-categoría tiene hijas
       return apiService.getTaxonomy().pipe(

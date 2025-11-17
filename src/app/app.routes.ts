@@ -16,7 +16,7 @@ export const routes: Routes = [
     resolve: { categories: categoriesResolver },
   },
   {
-    path: 'posts/:postId',
+    path: 'posts/:slugId',
     component: Posts,
     title: 'Artículo',
     resolve: {
@@ -29,7 +29,7 @@ export const routes: Routes = [
     title: 'Search Results',
   },
   {
-    path: 'categories/:role/:categoryId',
+    path: 'categories/:role/:slugId',
     component: Categories,
     title: 'Categoría',
     resolve: { categories: categoriesResolver },

@@ -4,6 +4,7 @@ import { TransferState, makeStateKey } from '@angular/core';
 import { ApiService } from '../services/api-service';
 import { of, tap, catchError } from 'rxjs';
 import { IPost } from '../shared';
+import { extractIdFromSlug } from '../shared/utils/slug.utils';
 
 // Clave única para cada post en el Transfer State
 const POST_KEY = (id: number) => makeStateKey<IPost>(`post-${id}`);
@@ -12,11 +13,12 @@ export const postResolver: ResolveFn<IPost | null> = (route) => {
   const apiService = inject(ApiService);
   const transferState = inject(TransferState);
 
-  const postId = Number(route.params['postId']);
+  const slugId = route.params['slugId'];
+  const postId = extractIdFromSlug(slugId);
 
   // Validar que el ID sea válido
-  if (!postId || isNaN(postId)) {
-    console.error('❌ ID de post inválido:', route.params['postId']);
+  if (!postId) {
+    console.error('❌ ID de post inválido en slugId:', slugId);
     return of(null);
   }
 

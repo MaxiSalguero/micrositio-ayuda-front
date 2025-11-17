@@ -3,22 +3,20 @@ import {
   computed,
   effect,
   inject,
-  PLATFORM_ID,
   signal,
 } from '@angular/core';
 import { MatListModule } from '@angular/material/list';
 import { ApiService } from '../../services/api-service';
 import { toSignal } from '@angular/core/rxjs-interop';
-import { ActivatedRoute, RouterLink } from '@angular/router';
+import { ActivatedRoute, RouterLink, Router } from '@angular/router';
 import { MatIconModule } from '@angular/material/icon';
 import { IPost, PipeMarkdownPipe, LoadingState, EmptyState } from '../../shared';
 import { SupportBox } from '../../components/support-box/support-box';
 import { MatButtonModule } from '@angular/material/button';
-import { Router } from '@angular/router';
 import { BackButton } from '../../components/back-button/back-button';
-import { isPlatformBrowser } from '@angular/common';
 import { SeoService } from '../../services/seo.service';
 import { firstValueFrom } from 'rxjs';
+import { buildSlugId } from '../../shared/utils/slug.utils';
 
 @Component({
   selector: 'app-search',
@@ -37,7 +35,6 @@ import { firstValueFrom } from 'rxjs';
   styleUrl: './search-results.scss',
 })
 export class SearchResults {
-  private platformId = inject(PLATFORM_ID);
   private route = inject(ActivatedRoute);
   private router = inject(Router);
   private api = inject(ApiService);
@@ -50,6 +47,9 @@ export class SearchResults {
 
   results = signal<IPost[]>([]);
   isSearching = signal(false);
+
+  // Exponer buildSlugId para el template
+  buildSlugId = buildSlugId;
 
   constructor() {
     effect(async () => {
@@ -96,14 +96,5 @@ export class SearchResults {
       queryParams: { q: this.query(), count: nextCount },
       queryParamsHandling: 'merge',
     });
-  }
-
-  beforeNavigate() {
-    if (isPlatformBrowser(this.platformId)) {
-      localStorage.setItem(
-        'queryParams',
-        JSON.stringify({ q: this.query(), count: this.count() })
-      );
-    }
   }
 }

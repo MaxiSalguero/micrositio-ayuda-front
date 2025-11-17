@@ -27,6 +27,7 @@ import {
   apiToUrlRole,
 } from '../../shared';
 import { MatListModule } from '@angular/material/list';
+import { buildSlugId } from '../../shared/utils/slug.utils';
 
 @Component({
   selector: 'app-categories',
@@ -65,6 +66,9 @@ export class Categories {
   private params = toSignal(this._route.params); // 🔥 NUEVO
 
   @ViewChild(MatAccordion, { static: false }) accordion?: MatAccordion;
+
+  // Exponer buildSlugId para el template
+  buildSlugId = buildSlugId;
 
   constructor() {
     // 🔥 NUEVO: Effect para obtener datos del resolver
@@ -210,19 +214,5 @@ export class Categories {
   getRoleName(): string {
     const current = this.selectedRole();
     return urlToApiRole(current) || current;
-  }
-
-  // Método para obtener la URL de retorno
-  getBackUrl(): string {
-    const categoryId = this.categoryId();
-    const role = this.selectedRole();
-
-    // Si estamos en una sub-categoría, volver a la vista de categorías del role
-    if (categoryId) {
-      return `/categories/${role}`;
-    }
-
-    // Si estamos en la vista principal, volver al home
-    return '/home';
   }
 }

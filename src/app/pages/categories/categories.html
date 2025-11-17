@@ -1,5 +1,5 @@
 <div class="categories-container">
-  <app-page-header [title]="pageTitle()" [backUrl]="getBackUrl()">
+  <app-page-header [title]="pageTitle()">
   </app-page-header>
 
   @if (isLoading()) {
@@ -8,15 +8,14 @@
     <!-- Posts directos (si existen) -->
     @if (directPosts().length > 0) {
       <section class="direct-posts-section">
-        <p class="mat-body-medium">Artículos disponibles</p>
+        <p class="mat-body-medium">Artículos de ayuda</p>
         <div class="posts-list">
           <mat-list>
             @for (post of directPosts(); track post.id) {
               <a
                 matListItemLine
                 class="post-item"
-                [routerLink]="['/posts', post.id]"
-                [queryParams]="{role: selectedRole(), category: categoryId()}"
+                [routerLink]="['/posts', buildSlugId(post.slug, post.id)]"
               >
                 <mat-icon class="arrow">chevron_right</mat-icon>
                 {{ post.title }}
@@ -30,13 +29,7 @@
     <!-- Acordeón de categorías (si existen) -->
     @if (categories().length > 0) {
       <section class="categories-section">
-        <p class="mat-body-medium">
-          @if (directPosts().length > 0) {
-            Sub-categorías
-          } @else {
-            Explora los temas de ayuda
-          }
-        </p>
+        <p class="mat-body-medium">Explora los temas de ayuda</p>
         <mat-accordion class="custom-accordion">
           @for (category of categories(); track category.id) {
             <mat-expansion-panel>
@@ -51,7 +44,7 @@
                     <button
                       matButton
                       class="full-width subcategory-button"
-                      [routerLink]="['/categories', selectedRole(), subcategory.id]"
+                      [routerLink]="['/categories', selectedRole(), buildSlugId(subcategory.slug, subcategory.id)]"
                     >
                       <mat-icon>folder</mat-icon>
                       <span>{{ subcategory.title }}</span>
@@ -68,8 +61,7 @@
                     <button
                       matButton
                       class="full-width post-button"
-                      [routerLink]="['/posts', post.id]"
-                      [queryParams]="{role: selectedRole(), category: category.id}"
+                      [routerLink]="['/posts', buildSlugId(post.slug, post.id)]"
                     >
                       <mat-icon>article</mat-icon>
                       <span>{{ post.title }}</span>

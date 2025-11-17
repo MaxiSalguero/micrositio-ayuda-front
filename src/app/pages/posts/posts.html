@@ -1,7 +1,6 @@
 <div class="container">
   <app-page-header
     [title]="post()?.title ?? ''"
-    [backUrl]="backUrl()"
     [compact]="true">
   </app-page-header>
 
@@ -35,7 +34,7 @@
         @for (relatedPost of related(); track relatedPost.id) {
         <a
           mat-list-item
-          [routerLink]="['/posts', relatedPost.id]"
+          [routerLink]="['/posts', buildSlugId(relatedPost.slug, relatedPost.id)]"
           class="related-item"
         >
           <mat-icon matListItemIcon>article</mat-icon>

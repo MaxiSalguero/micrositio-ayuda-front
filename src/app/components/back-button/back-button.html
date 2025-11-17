@@ -1,3 +1,5 @@
-<button mat-icon-button class="back-button" title="Volver" (click)="back()">
-  <mat-icon>arrow_back</mat-icon>
-</button>
+@if (isVisible()) {
+  <button mat-icon-button class="back-button" title="Volver" (click)="back()">
+    <mat-icon>arrow_back</mat-icon>
+  </button>
+}

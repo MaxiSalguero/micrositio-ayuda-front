@@ -1,8 +1,9 @@
-import { Component, Input, inject } from '@angular/core';
+import { Component, Input, inject, computed } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { Location } from '@angular/common';
 import { Router } from '@angular/router';
+import { NavigationHistoryService } from '../../services/navigation-history.service';
 
 @Component({
   selector: 'app-back-button',
@@ -13,6 +14,13 @@ import { Router } from '@angular/router';
 export class BackButton {
   private location = inject(Location);
   private router = inject(Router);
+  private navigationHistory = inject(NavigationHistoryService);
+
+  /**
+   * Signal computado que determina si el botón debe ser visible.
+   * Solo se muestra si hubo navegación interna en el sitio.
+   */
+  isVisible = computed(() => this.navigationHistory.hasInternalNavigation());
 
   /**
    * URL personalizada para navegar al hacer clic

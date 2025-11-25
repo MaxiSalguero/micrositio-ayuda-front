@@ -15,7 +15,7 @@
               <a
                 matListItemLine
                 class="post-item"
-                [routerLink]="['/posts', buildSlugId(post.slug, post.id)]"
+                [routerLink]="buildPostRoute(post)"
               >
                 <mat-icon class="arrow">chevron_right</mat-icon>
                 {{ post.title }}
@@ -38,37 +38,37 @@
               </mat-expansion-panel-header>
 
               <!-- Sub-categorías (nietas) si existen -->
-              @if (category.subcategories && category.subcategories.length > 0) {
+              @if (category.categories && category.categories.length > 0) {
                 <div class="subcategories-section">
-                  @for (subcategory of category.subcategories; track subcategory.id) {
+                  @for (subcategory of category.categories; track subcategory.id) {
                     <button
                       matButton
                       class="full-width subcategory-button"
-                      [routerLink]="['/categories', selectedRole(), buildSlugId(subcategory.slug, subcategory.id)]"
+                      [routerLink]="buildCategoryRoute(subcategory)"
                     >
                       <mat-icon>folder</mat-icon>
                       <span>{{ subcategory.title }}</span>
-                      <span class="post-count">({{ subcategory.post.length }})</span>
+                      <span class="post-count">({{ subcategory.posts.length }})</span>
                     </button>
                   }
                 </div>
               }
 
               <!-- Posts de esta categoría -->
-              @if (category.post.length) {
+              @if (category.posts.length) {
                 <div class="posts-section">
-                  @for (post of category.post; track post.id) {
+                  @for (post of category.posts; track post.id) {
                     <button
                       matButton
                       class="full-width post-button"
-                      [routerLink]="['/posts', buildSlugId(post.slug, post.id)]"
+                      [routerLink]="buildPostRoute(post)"
                     >
                       <mat-icon>article</mat-icon>
                       <span>{{ post.title }}</span>
                     </button>
                   }
                 </div>
-              } @else if (!category.subcategories || category.subcategories.length === 0) {
+              } @else if (!category.categories || category.categories.length === 0) {
                 <p class="no-posts">No hay artículos disponibles en esta categoría</p>
               }
             </mat-expansion-panel>
@@ -82,7 +82,7 @@
       <app-empty-state
         icon="folder_open"
         title="No hay categorías disponibles"
-        [message]="'No se encontraron categorías para ' + getRoleName()"
+        message="No se encontraron categorías en esta sección"
         [action]="{label: 'Volver al inicio', route: '/home'}"
       >
       </app-empty-state>

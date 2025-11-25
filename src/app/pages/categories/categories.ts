@@ -6,25 +6,21 @@ import {
   ChangeDetectionStrategy,
   ViewChild,
 } from '@angular/core';
-import { ActivatedRoute, Router, RouterLink } from '@angular/router';
-import { ApiService } from '../../services/api-service';
-import { NavigationStateService } from '../../services/navigation-state.service';
+import { ActivatedRoute, RouterLink } from '@angular/router';
+import { toSignal } from '@angular/core/rxjs-interop';
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
 import { MatExpansionModule, MatAccordion } from '@angular/material/expansion';
 import { MatIconModule } from '@angular/material/icon';
 import { SupportBox } from '../../components/support-box/support-box';
-import { toSignal } from '@angular/core/rxjs-interop';
-import { CategoriesResolverData } from '../../resolvers/categories.resolver';
 import { SeoService } from '../../services/seo.service';
 import {
-  Category,
-  CategoryNode,
   LoadingState,
   EmptyState,
   PageHeader,
-  urlToApiRole,
-  apiToUrlRole,
+  PageCategoryResponse,
+  PageCategory,
+  PagePost,
 } from '../../shared';
 import { MatListModule } from '@angular/material/list';
 import { buildSlugId } from '../../shared/utils/slug.utils';
@@ -49,170 +45,62 @@ import { buildSlugId } from '../../shared/utils/slug.utils';
 })
 export class Categories {
   private _route = inject(ActivatedRoute);
-  private _router = inject(Router);
-  private _apiService = inject(ApiService);
-  private _navigationState = inject(NavigationStateService);
   private _seo = inject(SeoService);
 
   // Signals
-  selectedRole = signal<string>('');
-  pageTitle = signal<string>('');  // Título dinámico del header
-  categoryId = signal<number | undefined>(undefined);  // ID de categoría (si es sub-categoría)
-  categories = signal<CategoryNode[]>([]);  // Categorías hijas para mostrar en acordeón
-  directPosts = signal<any[]>([]);  // Posts directos sin acordeón
+  pageTitle = signal<string>('');
+  categoryData = signal<PageCategoryResponse | null>(null);
+  directPosts = signal<PagePost[]>([]);
+  categories = signal<PageCategory[]>([]);
   isLoading = signal(false);
 
-  // Signal reactivo para los parámetros de la ruta
-  private params = toSignal(this._route.params); // 🔥 NUEVO
-
   @ViewChild(MatAccordion, { static: false }) accordion?: MatAccordion;
+
+  // Signal reactivo para detectar cambios en route.data
+  routeData = toSignal(this._route.data);
 
   // Exponer buildSlugId para el template
   buildSlugId = buildSlugId;
 
   constructor() {
-    // 🔥 NUEVO: Effect para obtener datos del resolver
+    // Effect reactivo que se dispara cuando route.data cambia
     effect(() => {
-      const resolvedData = this._route.snapshot.data[
-        'categories'  // Cambiado de 'categoriesData' a 'categories' para coincidir con app.routes.ts
-      ] as CategoriesResolverData | null;
+      const data = this.routeData();
+      const resolvedData = data?.['categories'] as PageCategoryResponse | null;
 
       if (resolvedData) {
-        this.selectedRole.set(this.getRoleFromApiRole(resolvedData.role));
-        this.pageTitle.set(resolvedData.pageTitle);
-        this.categoryId.set(resolvedData.categoryId);
-        this.categories.set(resolvedData.categories);
-        this.directPosts.set(resolvedData.directPosts || []);
+        this.categoryData.set(resolvedData);
+        this.pageTitle.set(resolvedData.title);
+        this.directPosts.set(resolvedData.posts || []);
+        this.categories.set(resolvedData.categories || []);
         this.isLoading.set(false);
-
-        // Actualizar estado global
-        this._navigationState.updateFullState({
-          selectedRole: resolvedData.role,
-          categories: resolvedData.categories,
-        });
 
         // Actualizar meta tags
-        const totalContent = resolvedData.categories.length + (resolvedData.directPosts?.length || 0);
-        this.updateMetaTags(resolvedData.pageTitle, totalContent);
-      }
-    });
-
-    // 🔥 NUEVO: Effect para manejar cambios en los parámetros de la ruta
-    effect(() => {
-      const currentParams = this.params();
-      if (!currentParams) return;
-
-      const role = currentParams['role'];
-      if (!role) {
-        this._router.navigate(['/home']);
-        return;
-      }
-
-      // Solo cargar si NO hay datos del resolver
-      const resolvedData = this._route.snapshot.data['categories'];
-      if (!resolvedData) {
-        this.selectedRole.set(role);
-        this.loadCategoriesForRole(role);
+        const totalContent = resolvedData.categories.length + resolvedData.posts.length;
+        this.updateMetaTags(resolvedData.title, totalContent, buildSlugId(resolvedData.slug, resolvedData.id));
       }
     });
   }
 
-  // 🔥 MODIFICADO: Método privado para cargar categorías (fallback)
-  private loadCategoriesForRole(role: string): void {
-    this.isLoading.set(true);
-
-    const apiRole = urlToApiRole(role);
-    if (!apiRole) {
-      console.error('Rol no válido:', role);
-      this._router.navigate(['/home']);
-      this.isLoading.set(false);
-      return;
-    }
-
-    this._apiService.getCategoryByTitle(apiRole).subscribe({
-      next: (parentCategory) => {
-        this._apiService.getTaxonomy().subscribe({
-          next: (items) => {
-            const children = items
-              .filter((item) => item.parent?.id === parentCategory.id)
-              .map((item) => item.category)
-              .filter(Boolean) as { id: number }[];
-
-            const requests = children.map((child) =>
-              this._apiService.getCategoryById(child.id)
-            );
-
-            if (requests.length === 0) {
-              this.categories.set([]);
-              this._navigationState.updateFullState({
-                selectedRole: apiRole,
-                categories: [],
-              });
-              this.isLoading.set(false);
-              this.updateMetaTags(apiRole, 0);
-              return;
-            }
-
-            import('rxjs').then(({ forkJoin }) => {
-              forkJoin(requests).subscribe({
-                next: (categoriesWithPosts: Category[]) => {
-                  this.categories.set(categoriesWithPosts);
-
-                  // Actualizar estado global
-                  this._navigationState.updateFullState({
-                    selectedRole: apiRole,
-                    categories: categoriesWithPosts,
-                  });
-
-                  this.isLoading.set(false);
-                  this.updateMetaTags(apiRole, categoriesWithPosts.length);
-                },
-                error: (err) => {
-                  console.error('Error loading categories:', err);
-                  this.isLoading.set(false);
-                  this._router.navigate(['/home']);
-                },
-              });
-            });
-          },
-          error: (err) => {
-            console.error('Error loading taxonomy:', err);
-            this.isLoading.set(false);
-            this._router.navigate(['/home']);
-          },
-        });
-      },
-      error: (err) => {
-        console.error('Error loading parent category:', err);
-        this.isLoading.set(false);
-        this._router.navigate(['/home']);
-      },
-    });
-  }
-
-  // 🔥 NUEVO: Método para actualizar meta tags
-  private updateMetaTags(pageTitle: string, categoriesCount: number): void {
-    const roleUrl = this.selectedRole();
-    const categoryId = this.categoryId();
-
-    const url = categoryId
-      ? `/categories/${roleUrl}/${categoryId}`
-      : `/categories/${roleUrl}`;
-
+  private updateMetaTags(pageTitle: string, categoriesCount: number, categorySlugId: string): void {
     this._seo.updateMetaTags({
       title: `${pageTitle} | Ayuda de Redif`,
-      description: `Explora ${categoriesCount} categorías de ayuda. Encuentra respuestas a tus preguntas.`,
-      url,
+      description: `Explora ${categoriesCount} elementos de ayuda. Encuentra respuestas a tus preguntas.`,
+      url: `/categories/${categorySlugId}`,
     });
   }
 
-  // 🔥 NUEVO: Método auxiliar para convertir apiRole a role de URL
-  private getRoleFromApiRole(apiRole: string): string {
-    return apiToUrlRole(apiRole) || apiRole.toLowerCase();
+  /**
+   * Construye una ruta para navegar a una subcategoría
+   */
+  buildCategoryRoute(category: PageCategory): string[] {
+    return ['/categories', buildSlugId(category.slug, category.id)];
   }
 
-  getRoleName(): string {
-    const current = this.selectedRole();
-    return urlToApiRole(current) || current;
+  /**
+   * Construye una ruta para navegar a un post
+   */
+  buildPostRoute(post: PagePost): string[] {
+    return ['/posts', buildSlugId(post.slug, post.id)];
   }
 }

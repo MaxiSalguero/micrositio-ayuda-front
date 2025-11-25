@@ -10,9 +10,9 @@ export const routes: Routes = [
   { path: '', redirectTo: '/home', pathMatch: 'full' },
   { path: 'home', component: Home },
   {
-    path: 'categories/:role',
+    path: 'categories/:slugId',
     component: Categories,
-    title: 'Categorías',
+    title: 'Categoría',
     resolve: { categories: categoriesResolver },
   },
   {
@@ -20,19 +20,13 @@ export const routes: Routes = [
     component: Posts,
     title: 'Artículo',
     resolve: {
-      post: postResolver, // 🔥 NUEVO: Resolver se ejecuta antes de renderizar
+      post: postResolver,
     },
   },
   {
     path: 'search',
     component: SearchResults,
     title: 'Search Results',
-  },
-  {
-    path: 'categories/:role/:slugId',
-    component: Categories,
-    title: 'Categoría',
-    resolve: { categories: categoriesResolver },
   },
   { path: '**', redirectTo: '', pathMatch: 'full' },
 ];

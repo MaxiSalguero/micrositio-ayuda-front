@@ -19,9 +19,8 @@ import { toSignal } from '@angular/core/rxjs-interop';
 import { SupportBox } from '../../components/support-box/support-box';
 import { SeoService } from '../../services/seo.service';
 import {
-  IPost,
-  IRelated,
-  Post,
+  PagePostResponse,
+  PagePost,
   LoadingState,
   EmptyState,
   PageHeader,
@@ -55,73 +54,37 @@ export class Posts {
   private _seo = inject(SeoService);
 
   // Signals para el estado reactivo
-  post = signal<IPost | null>(null);
-  related = signal<Post[]>([]);
+  post = signal<PagePostResponse | null>(null);
+  related = signal<PagePost[]>([]);
   isLoading = signal(false);
   isLiked = signal(false);
 
-  // Signal reactivo para los parámetros de la ruta
-  private params = toSignal(this._route.params);
+  // Signal reactivo para detectar cambios en route.data
+  routeData = toSignal(this._route.data);
 
   // Exponer buildSlugId para el template
   buildSlugId = buildSlugId;
 
   constructor() {
-    // 🔥 NUEVO: Effect para obtener datos del resolver
+    // Effect reactivo que se dispara cuando route.data cambia
     effect(() => {
-      const resolvedData = this._route.snapshot.data['post'];
+      const data = this.routeData();
+      const resolvedData = data?.['post'] as PagePostResponse | null;
+
       if (resolvedData) {
-        console.log('✅ Post cargado desde resolver (SSR)');
+        console.log('✅ Post cargado desde resolver');
         this.post.set(resolvedData);
+        this.related.set(resolvedData.related || []);
         this.isLoading.set(false);
 
-        // 🔥 NUEVO: Actualizar meta tags para SEO
+        // Actualizar meta tags para SEO
         this.updateMetaTags(resolvedData);
       }
     });
-
-    // Effect para manejar cambios en los parámetros de la ruta
-    effect(() => {
-      const currentParams = this.params();
-      if (!currentParams) return;
-
-      const slugId = currentParams['slugId'];
-      const currentPostId = extractIdFromSlug(slugId);
-      if (!currentPostId) return;
-
-      // Solo cargar si NO hay datos del resolver
-      const currentPost = this.post();
-      if (!currentPost || currentPost.id !== currentPostId) {
-        this.isLoading.set(true);
-
-        this._apiService.getPostById(currentPostId).subscribe({
-          next: (data: IPost) => {
-            this.post.set(data);
-            this.isLoading.set(false);
-            this.updateMetaTags(data);
-          },
-          error: (err: any) => {
-            console.error('Error loading post:', err);
-            this.isLoading.set(false);
-          },
-        });
-      }
-
-      // Cargar posts relacionados
-      this._apiService.getRelated().subscribe({
-        next: (data: IRelated[]) => {
-          const relatedPosts = data
-            .filter((item) => item.post.id === currentPostId)
-            .map((item) => item.related);
-          this.related.set(relatedPosts);
-        },
-        error: (err: any) => console.error('Error loading related posts:', err),
-      });
-    });
   }
 
-  // 🔥 NUEVO: Método para actualizar meta tags
-  private updateMetaTags(post: IPost): void {
+  // Método para actualizar meta tags
+  private updateMetaTags(post: PagePostResponse): void {
     const slugId = buildSlugId(post.slug, post.id);
     this._seo.updateMetaTags({
       title: `${post.title} | Ayuda de Redif`,

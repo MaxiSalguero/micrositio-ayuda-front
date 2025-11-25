@@ -12,29 +12,23 @@
     adapta a ti
   </p>
 
-  <div class="category-buttons">
-    <button
-      matButton="filled"
-      class="role-button"
-      (click)="handleParent('Alumnos')"
-    >
-      Soy Alumno
-    </button>
-    <button
-      matButton="filled"
-      class="role-button"
-      (click)="handleParent('Profesores')"
-    >
-      Soy Profesor
-    </button>
-    <button
-      matButton="filled"
-      class="role-button"
-      (click)="handleParent('Administración')"
-    >
-      Soy Administrador
-    </button>
-  </div>
+  @if (isLoading()) {
+    <div class="loading-state">
+      <p>Cargando categorías...</p>
+    </div>
+  } @else {
+    <div class="category-buttons">
+      @for (category of rootCategories(); track category.id) {
+        <button
+          matButton="filled"
+          class="role-button"
+          (click)="handleCategoryClick(category)"
+        >
+          {{ category.title }}
+        </button>
+      }
+    </div>
+  }
 </section>
 
 <app-support-box />

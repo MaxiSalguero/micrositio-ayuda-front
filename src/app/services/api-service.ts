@@ -2,7 +2,7 @@ import { firstValueFrom, Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { environment } from '../../environments/environment';
-import { IRelated, ITaxonomy, Category, IPost, Like } from '../shared';
+import { IRelated, ITaxonomy, Category, IPost, Like, RootCategory, PageCategoryResponse, PagePostResponse } from '../shared';
 
 /**
  * Servicio centralizado para todas las llamadas a la API
@@ -14,65 +14,6 @@ export class ApiService {
   private _httpClient = inject(HttpClient);
 
   private readonly baseUrl = environment.apiUrl;
-
-  /**
-   * Obtiene el título de la aplicación
-   * @returns Observable con el título como string
-   */
-  getTitle(): Observable<string> {
-    return this._httpClient.get(this.baseUrl, { responseType: 'text' });
-  }
-
-  /**
-   * Obtiene todas las categorías
-   * @returns Observable con array de categorías
-   */
-  getCategories(): Observable<Category[]> {
-    return this._httpClient.get<Category[]>(`${this.baseUrl}/categories`);
-  }
-
-  /**
-   * Obtiene una categoría por título
-   * @param title - Título de la categoría a buscar
-   * @returns Observable con la categoría encontrada
-   */
-  getCategoryByTitle(title: string): Observable<Category> {
-    return this._httpClient.get<Category>(`${this.baseUrl}/categories/category/${title}`);
-  }
-
-  /**
-   * Obtiene una categoría por ID
-   * @param id - ID de la categoría a buscar
-   * @returns Observable con la categoría encontrada
-   */
-  getCategoryById(id: number): Observable<Category> {
-    return this._httpClient.get<Category>(`${this.baseUrl}/categories/${id}`);
-  }
-
-  /**
-   * Obtiene un post por ID
-   * @param postId - ID del post a buscar
-   * @returns Observable con el post encontrado
-   */
-  getPostById(postId: number): Observable<IPost> {
-    return this._httpClient.get<IPost>(`${this.baseUrl}/posts/${postId}`);
-  }
-
-  /**
-   * Obtiene posts relacionados
-   * @returns Observable con array de posts relacionados
-   */
-  getRelated(): Observable<IRelated[]> {
-    return this._httpClient.get<IRelated[]>(`${this.baseUrl}/related`);
-  }
-
-  /**
-   * Obtiene la taxonomía de categorías (relaciones padre-hijo)
-   * @returns Observable con array de taxonomías
-   */
-  getTaxonomy(): Observable<ITaxonomy[]> {
-    return this._httpClient.get<ITaxonomy[]>(`${this.baseUrl}/taxonomy`);
-  }
 
   /**
    * Realiza una búsqueda de posts
@@ -93,9 +34,37 @@ export class ApiService {
    * @returns Observable con el like creado
    */
   createLike(postId: number, value: boolean): Observable<Like> {
-    return this._httpClient.post<Like>(`${this.baseUrl}/likes`, {
-      post: postId,
+    return this._httpClient.post<Like>(`${this.baseUrl}/posts/like`, {
+      postId,
       value,
     });
+  }
+
+  // ========== NUEVOS ENDPOINTS PARA PATRÓN UNIFICADO ==========
+
+  /**
+   * Obtiene las categorías raíz del sistema (sin padre)
+   * @returns Observable con array de categorías raíz
+   */
+  getRootCategories(): Observable<RootCategory[]> {
+    return this._httpClient.get<RootCategory[]>(`${this.baseUrl}/categories/root`);
+  }
+
+  /**
+   * Obtiene una categoría con su jerarquía completa de subcategorías y posts
+   * @param id - ID de la categoría
+   * @returns Observable con la estructura jerárquica completa de la categoría
+   */
+  getPageCategory(id: number): Observable<PageCategoryResponse> {
+    return this._httpClient.get<PageCategoryResponse>(`${this.baseUrl}/pages/categories/${id}`);
+  }
+
+  /**
+   * Obtiene un post con sus posts relacionados
+   * @param id - ID del post
+   * @returns Observable con el post y sus relacionados
+   */
+  getPagePost(id: number): Observable<PagePostResponse> {
+    return this._httpClient.get<PagePostResponse>(`${this.baseUrl}/pages/posts/${id}`);
   }
 }

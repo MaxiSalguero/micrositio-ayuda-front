@@ -6,20 +6,16 @@ export const serverRoutes: ServerRoute[] = [
     renderMode: RenderMode.Prerender,
   },
   {
-    path: 'posts/:postId',
+    path: 'posts/:slugId',
     renderMode: RenderMode.Server,
   },
   {
-    path: 'categories/:role',
+    path: 'categories/:slugId',
     renderMode: RenderMode.Server,
   },
   {
     path: 'search',
     renderMode: RenderMode.Client,
-  },
-  {
-    path: 'categories/:role/:categoryId',
-    renderMode: RenderMode.Server,
   },
   {
     path: '**',
